@@ -30,7 +30,7 @@ const app = express();
 // Middleware globali (non cambiano rispetto a prima)
 // ─────────────────────────────────────────────────────
 app.use(cors({
-  origin: 'http://localhost:5173',
+  origin: process.env.FRONTEND_URL || 'http://localhost:5173',
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
 }));
 app.use(express.json());
@@ -108,7 +108,7 @@ cron.schedule('0 0 * * *', async () => {
 // ─────────────────────────────────────────────────────
 // Avvio del server
 // ─────────────────────────────────────────────────────
-const PORTA = process.env.PORTA || 3001;
+const PORTA = process.env.PORT || process.env.PORTA || 3001;
 
 app.listen(PORTA, () => {
   console.log('');
