@@ -17,8 +17,8 @@ import axios from 'axios';
 let tokenCorrente = null;
 let usernameCorrente = null;
 
-// L'indirizzo base del nostro server backend.
-const URL_BASE_SERVER = 'http://localhost:3001/api';
+// L'indirizzo base del nostro server backend su Render.
+const URL_BASE_SERVER = 'https://biblio-vm.onrender.com/api';
 
 // Creiamo un'istanza di axios pre-configurata.
 const chiamataHTTP = axios.create({
