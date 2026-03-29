@@ -40,8 +40,8 @@
 }
 
 .header-social-link svg {
-  width: 30px;
-  height: 30px;
+  width: 60px;
+  height: 60px;
   display: block;
 }
 
@@ -294,8 +294,8 @@
   }
 
   .header-social-link svg {
-    width: 26px;
-    height: 26px;
+    width: 52px;
+    height: 52px;
   }
 }
 
