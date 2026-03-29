@@ -23,7 +23,7 @@ const URL_BASE_SERVER = 'https://biblio-vm.onrender.com/api';
 // Creiamo un'istanza di axios pre-configurata.
 const chiamataHTTP = axios.create({
   baseURL: URL_BASE_SERVER,
-  timeout: 10000, 
+  timeout: 25000, 
 });
 
 /**

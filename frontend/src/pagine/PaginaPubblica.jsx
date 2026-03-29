@@ -44,7 +44,7 @@ function PaginaPubblica() {
     return (
       <div className="spinner-contenitore">
         <div className="spinner" />
-        <p className="spinner-testo">Caricamento in corso...</p>
+        <p className="spinner-testo">Risveglio del server in corso, attendi qualche secondo...</p>
       </div>
     );
   }
@@ -97,7 +97,7 @@ function PaginaPubblica() {
             </div>
 
             {/* Lato destro: link all'area admin (Bottone Arancione) */}
-            <div style={{ flex: 1, display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
+            <div className="pp-header-right-col">
               <Link to="/admin" className="btn-arancio">
                 Area Amministratori
               </Link>

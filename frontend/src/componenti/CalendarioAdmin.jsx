@@ -185,9 +185,9 @@ function CalendarioAdmin() {
       
       {/* Controlli Header */}
       <div className="calendario-header-controlli">
-        <button className="btn-mese" onClick={mesePrecedente}>&lt; Precedente</button>
+        <button className="btn-mese-freccia" onClick={mesePrecedente} title="Mese Precedente">&#x276E;</button>
         <div className="mese-titolo">{meseNome}</div>
-        <button className="btn-mese" onClick={meseSuccessivo}>Successivo &gt;</button>
+        <button className="btn-mese-freccia" onClick={meseSuccessivo} title="Mese Successivo">&#x276F;</button>
       </div>
 
       {/* Griglia Calendario */}

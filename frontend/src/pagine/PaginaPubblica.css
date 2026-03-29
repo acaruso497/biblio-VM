@@ -104,8 +104,21 @@
   white-space: nowrap;
 }
 
-.pp-link-admin:hover {
-  color: var(--rosso-mattone);
+.pp-header-right-col {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.pp-header-right-col .btn-arancio {
+  /* Allineato al centro del logo, spostato a destra come richiesto */
+  transform: translateY(-18px) translateX(12px);
+  transition: all 0.3s ease;
+}
+
+.pp-header-right-col .btn-arancio:hover {
+  transform: translateY(-20px) translateX(12px) scale(1.05);
 }
 
 /* Linea rossa sotto l'header — come la copertina di un libro */
@@ -220,17 +233,17 @@
 /* Modifiche specifiche per mobile < 600px come richiesto */
 @media (max-width: 600px) {
   .pp-header-interno {
-    flex-direction: row; /* SEMPRE sulla stessa riga come richiesto */
+    flex-direction: row; 
     justify-content: space-between;
     align-items: center;
-    gap: 8px;
+    gap: 0px; /* Ridotto per guadagnare spazio */
     padding: 10px 0;
   }
 
   .pp-header-interno > div {
     flex: 1 1 0 !important;
     min-width: 0;
-    display: flex; /* Assicura che justify-content funzioni */
+    display: flex;
   }
 
   .pp-header-interno > div:first-child {
@@ -239,31 +252,30 @@
   .pp-header-interno > div:nth-child(2) {
     justify-content: center !important;
   }
-  .pp-header-interno > div:last-child {
+  .pp-header-right-col {
     justify-content: flex-end !important;
   }
 
+  /* Rimuovo offset forzato su mobile perché non c'è spazio */
+  .pp-header-right-col .btn-arancio {
+    transform: translateY(-15px) translateX(8px) !important;
+  }
+
   .pp-logo-immagine {
-    width: 40px;
-    height: 40px;
+    width: 38px;
+    height: 38px;
   }
 
   .pp-nome-biblioteca {
-    font-size: 13px !important;
+    font-size: 11px !important;
     margin-top: 2px !important;
   }
 
   .btn-arancio {
-    font-size: 9px !important;
-    padding: 6px 8px !important;
+    font-size: 8px !important;
+    padding: 6px 6px !important;
     white-space: nowrap;
-    letter-spacing: 0.02em;
-  }
-  
-  /* Nascondi svg se lo spazio è davvero minimo o rimpiccioliscilo */
-  .header-social-link svg {
-    width: 20px;
-    height: 20px;
+    letter-spacing: 0.01em;
   }
 }
 
