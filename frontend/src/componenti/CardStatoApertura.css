@@ -153,10 +153,18 @@
 
 .card-stato-data {
   font-family: var(--font-corpo, 'Montserrat', sans-serif);
-  font-size: 15px; /* Ingrandito per leggibilità */
-  color: rgba(237, 232, 220, 0.7); /* Più visibile */
-  font-weight: 500;
+  font-size: 14px;
+  font-weight: 700;
   letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.stato-aperta .card-stato-data {
+  color: #166534; /* Verde scuro per contrasto su sfondo verde chiaro */
+}
+
+.stato-chiusa .card-stato-data {
+  color: #991B1B; /* Rosso scuro per contrasto su sfondo rosso chiaro */
 }
 
 /* ─── Responsive mobile ─── */
