@@ -104,6 +104,14 @@
   white-space: nowrap;
 }
 
+.pp-header-left-col {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  transform: translateY(-14px); /* Allineamento con il tasto admin */
+}
+
 .pp-header-right-col {
   flex: 1;
   display: flex;
@@ -246,8 +254,9 @@
     display: flex;
   }
 
-  .pp-header-interno > div:first-child {
+  .pp-header-left-col {
     justify-content: flex-start !important;
+    transform: translateY(-11px) !important;
   }
   .pp-header-interno > div:nth-child(2) {
     justify-content: center !important;

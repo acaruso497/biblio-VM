@@ -69,7 +69,7 @@ function PaginaPubblica() {
           <div className="pp-header-interno">
 
             {/* Sinistra: Collegamenti Social (Instagram) */}
-            <div style={{ flex: 1, display: 'flex', alignItems: 'center' }}>
+            <div className="pp-header-left-col">
               <a 
                 href="https://www.instagram.com/villa_medusa.bagnoli/" 
                 target="_blank" 
