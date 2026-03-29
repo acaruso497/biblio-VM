@@ -44,7 +44,7 @@
 
 .calendario-griglia {
   display: grid;
-  grid-template-columns: repeat(7, 1fr);
+  grid-template-columns: repeat(7, minmax(0, 1fr)); /* Forza le colonne a non eccedere la larghezza disponibile */
   gap: 4px;
 }
 

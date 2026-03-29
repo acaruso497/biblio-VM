@@ -220,31 +220,50 @@
 /* Modifiche specifiche per mobile < 600px come richiesto */
 @media (max-width: 600px) {
   .pp-header-interno {
-    flex-direction: column;
-    gap: 12px;
-    padding: 12px 0;
+    flex-direction: row; /* SEMPRE sulla stessa riga come richiesto */
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 0;
   }
 
   .pp-header-interno > div {
-    flex: none !important;
-    width: 100%;
+    flex: 1 1 0 !important;
+    min-width: 0;
+    display: flex; /* Assicura che justify-content funzioni */
+  }
+
+  .pp-header-interno > div:first-child {
+    justify-content: flex-start !important;
+  }
+  .pp-header-interno > div:nth-child(2) {
     justify-content: center !important;
-    text-align: center;
+  }
+  .pp-header-interno > div:last-child {
+    justify-content: flex-end !important;
   }
 
   .pp-logo-immagine {
-    width: 50px;
-    height: 50px;
+    width: 40px;
+    height: 40px;
   }
 
   .pp-nome-biblioteca {
-    font-size: 18px !important;
-    margin-top: 4px !important;
+    font-size: 13px !important;
+    margin-top: 2px !important;
   }
 
   .btn-arancio {
-    font-size: 12px !important;
-    padding: 8px 16px !important;
+    font-size: 9px !important;
+    padding: 6px 8px !important;
+    white-space: nowrap;
+    letter-spacing: 0.02em;
+  }
+  
+  /* Nascondi svg se lo spazio è davvero minimo o rimpiccioliscilo */
+  .header-social-link svg {
+    width: 20px;
+    height: 20px;
   }
 }
 
