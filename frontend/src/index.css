@@ -1,0 +1,613 @@
+/* =====================================================
+   index.css — Sistema di design "Centro Sociale Urbano"
+   =====================================================
+   Nuovo tema ispirato agli spazi popolari, murales e
+   cultura street. Palette: rosso mattone, nero carbone,
+   bianco sporco, blu mare profondo.
+
+   Font:
+   - Oswald   → titoli, intestazioni, stati (impatto visivo)
+   - Montserrat → corpo testo, etichette (leggibilità)
+   ===================================================== */
+
+/* Import dei font da Google Fonts - Richiesto Josefin Sans */
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;500;600;700&display=swap');
+
+/* ─────────────────────────────────────────────────────
+   Variabili CSS — la tavolozza del nostro stile urbano
+   ───────────────────────────────────────────────────── */
+:root {
+  /* Colori principali *Logo Villa Medusa Light* — Contrasto Elevato */
+  --rosso-mattone:      #DF4E27;   /* Arancione del logo */
+  --arancio-acceso:     #FF5722;   /* Arancione vibrante per bottoni */
+  --rosso-mattone-scuro:#BF360C;   
+  --rosso-mattone-light:rgba(223, 78, 39, 0.1); 
+  --nero-carbone:       #F8FAFC;   /* Sfondo pagina molto chiaro */
+  --nero-medio:         #FFFFFF;   /* Sfondo card bianco puro */
+  --nero-chiaro:        #CBD5E1;   /* Bordi più visibili */
+  --bianco-sporco:      #0F172A;   /* Testo Primario quasi nero per contrasto massimo */
+  --bianco-sporco-2:    #475569;   /* Testo Secondario */
+  
+  /* Classi Utility per i bottoni dei modali */
+  --color-annulla:      #94a3b8;
+  --color-conferma:     var(--arancio-acceso);
+  
+  /* Mantengo l'arancio nei componenti logici che si chiamano 'blu' (ereditati) */
+  --blu-mare:           #DF4E27;   
+  --blu-mare-light:     #F26640;   
+  --blu-accento:        rgba(223, 78, 39, 0.2); 
+
+  /* Colori stato biblioteca (usati per bottoni chiusura/apertura) */
+  --verde-urbano:       #10B981;   /* Verde più fresco per tema chiaro */
+  --verde-sfondo:       rgba(16, 185, 129, 0.12);
+  --rosso-allarme:      #EF4444;   /* Rosso di allarme classico distinto dall'arancio del logo */
+  --rosso-sfondo:       rgba(239, 68, 68, 0.12);
+
+  /* Tipografia universale in Josefin Sans */
+  --font-titoli: 'Josefin Sans', sans-serif;
+  --font-corpo:  'Josefin Sans', sans-serif;
+
+  /* Misure e bordi — più spigolosi rispetto al tema precedente */
+  --raggio-bordo:    4px;    /* Quasi squadrato, look urbano */
+  --raggio-bordo-lg: 6px;
+  --bordo-grosso:    3px;    /* Per le linee di accento */
+
+  /* Ombre moderne e profonde */
+  --ombra-leggera: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --ombra-dura:   0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.1);
+  --ombra-rossa:  0 6px 20px rgba(255, 87, 34, 0.25);
+
+  /* Niente background geometrico troppo marcato, lascio una sottile linea */
+  --pattern-sfondo: none;
+}
+
+/* ─── Reset globale ─── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Impostazioni body — tema chiaro pulito */
+body {
+  font-family: var(--font-corpo);
+  background-color: var(--nero-carbone);
+  color: var(--bianco-sporco);
+  line-height: 1.6;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  position: relative;
+}
+
+/* Watermark: Logo Centrale su ogni pagina (Sfondo) */
+body::before {
+  content: '';
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 50vw;
+  height: 50vw;
+  max-width: 600px;
+  max-height: 600px;
+  background-image: url('/logo.jpg');
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0.2; /* Aumentata visibilità per renderlo nettamente più prominente */
+  z-index: -1;
+  pointer-events: none;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* ─────────────────────────────────────────────────────
+   Contenitore principale
+   ───────────────────────────────────────────────────── */
+.full-width {
+  max-width: 1200px !important; /* Larghezza più armonica per la lettura */
+  width: 95%;
+  margin: 0 auto; /* Centratura perfetta del contenuto */
+}
+
+.contenitore {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 40px; /* Più respiro ai lati */
+}
+
+/* ─────────────────────────────────────────────────────
+   Card — stile poster / avviso affisso al muro
+   Ha un bordo sinistro rosso vivo e sfondo leggermente
+   più chiaro del nero puro.
+   ───────────────────────────────────────────────────── */
+.card {
+  background: var(--nero-medio);
+  border: 1px solid var(--nero-chiaro); 
+  border-top: var(--bordo-grosso) solid var(--rosso-mattone);
+  border-radius: var(--raggio-bordo-lg);
+  padding: 32px; /* Spazio interno aumentato */
+  box-shadow: var(--ombra-leggera);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--ombra-dura);
+}
+
+/* ─────────────────────────────────────────────────────
+   Bottoni
+   Stile diretto, bold, quasi tipografico.
+   ───────────────────────────────────────────────────── */
+.bottone-primario {
+  background: var(--rosso-mattone);
+  color: var(--bianco-sporco);
+  border: 2px solid var(--rosso-mattone);
+  border-radius: var(--raggio-bordo);
+  padding: 12px 28px;
+  font-size: 14px;
+  font-weight: 700;
+  font-family: var(--font-titoli);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.15s ease, box-shadow 0.15s ease, transform 0.1s ease;
+}
+
+.bottone-primario:hover {
+  background: var(--rosso-mattone-scuro);
+  box-shadow: var(--ombra-rossa);
+  transform: translate(-1px, -1px);
+}
+
+.bottone-primario:active {
+  transform: translate(0, 0);
+  box-shadow: none;
+}
+
+.bottone-secondario {
+  background: transparent;
+  color: var(--bianco-sporco);
+  border: 2px solid rgba(237, 232, 220, 0.3);
+  border-radius: var(--raggio-bordo);
+  padding: 10px 20px;
+  font-size: 13px;
+  font-weight: 600;
+  font-family: var(--font-corpo);
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.bottone-secondario:hover {
+  border-color: var(--bianco-sporco);
+  background: rgba(0, 0, 0, 0.04);
+}
+
+/* Bottone Arancione richiesto (più grande e visibile) */
+.btn-arancio {
+  background-color: var(--arancio-acceso);
+  color: #FFFFFF !important; /* Testo bianco su arancio per contrasto */
+  border: none;
+  border-radius: var(--raggio-bordo);
+  padding: 12px 24px;
+  font-family: var(--font-titoli);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 14px;
+  cursor: pointer;
+  box-shadow: var(--ombra-leggera);
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-arancio:hover {
+  background-color: var(--rosso-mattone-scuro);
+  transform: translateY(-2px);
+  box-shadow: var(--ombra-rossa);
+}
+
+/* ─────────────────────────────────────────────────────
+   Stili Bottoni per Finestre Modali (Globali)
+   ───────────────────────────────────────────────────── */
+.btn-modale-annulla {
+  background: white;
+  color: #64748b;
+  border: 1px solid #cbd5e1;
+  padding: 10px 20px;
+  border-radius: var(--raggio-bordo);
+  font-family: var(--font-corpo);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-modale-annulla:hover {
+  background: #f1f5f9;
+  color: #1e293b;
+}
+
+.btn-modale-conferma {
+  background: var(--arancio-acceso);
+  color: white;
+  border: none;
+  padding: 10px 24px;
+  border-radius: var(--raggio-bordo);
+  font-family: var(--font-titoli);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: var(--ombra-leggera);
+}
+
+.btn-modale-conferma:hover {
+  background: var(--rosso-mattone-scuro);
+  transform: translateY(-1px);
+  box-shadow: var(--ombra-rossa);
+}
+
+.bottone-disabilitato {
+  opacity: 0.5 !important;
+  cursor: not-allowed !important;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+.modale-azioni {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+/* ─────────────────────────────────────────────────────
+   Input e Form — stile "compilazione modulo cartaceo"
+   ───────────────────────────────────────────────────── */
+.campo-input {
+  width: 100%;
+  background: var(--nero-carbone);
+  border: 1px solid var(--nero-chiaro);
+  border-radius: var(--raggio-bordo);
+  padding: 11px 14px;
+  color: var(--bianco-sporco);
+  font-size: 15px;
+  font-family: var(--font-corpo);
+  transition: all 0.2s ease;
+  outline: none;
+}
+
+.campo-input:focus {
+  border-color: var(--rosso-mattone);
+  box-shadow: 0 0 0 3px var(--rosso-mattone-light);
+  background: var(--nero-medio);
+}
+
+.campo-input::placeholder {
+  color: #64748b; /* Grigio più scuro per contrasto leggibile */
+  font-style: italic;
+  opacity: 1; /* Garantisce che il colore non sia sbiadito dal browser */
+}
+
+.etichetta-campo {
+  display: block;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--bianco-sporco-2);
+  margin-bottom: 6px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-family: var(--font-corpo);
+}
+
+.gruppo-campo {
+  margin-bottom: 20px;
+}
+
+/* ─────────────────────────────────────────────────────
+   Messaggi di feedback
+   ───────────────────────────────────────────────────── */
+.messaggio-successo {
+  background: #DCFCE7;
+  border: 1px solid #86EFAC;
+  border-left: 4px solid #16A34A;
+  border-radius: var(--raggio-bordo);
+  padding: 14px 20px;
+  color: #000000; /* Nero assoluto per contrasto massimo */
+  font-size: 15px;
+  font-family: var(--font-corpo);
+  font-weight: 700;
+  box-shadow: var(--ombra-leggera);
+}
+
+.messaggio-errore {
+  background: #FEE2E2;
+  border: 1px solid #FECACA;
+  border-left: 4px solid #DC2626;
+  border-radius: var(--raggio-bordo);
+  padding: 14px 20px;
+  color: #000000; /* Nero assoluto */
+  font-size: 15px;
+  font-family: var(--font-corpo);
+  font-weight: 700;
+  box-shadow: var(--ombra-leggera);
+}
+
+/* ─────────────────────────────────────────────────────
+   Spinner di caricamento
+   ───────────────────────────────────────────────────── */
+.spinner-contenitore {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  gap: 16px;
+}
+
+@keyframes rotazione {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+.spinner {
+  width: 44px;
+  height: 44px;
+  border: 3px solid rgba(237, 232, 220, 0.1);
+  border-top-color: var(--rosso-mattone);
+  border-radius: 50%;
+  animation: rotazione 0.7s linear infinite;
+}
+
+.spinner-testo {
+  color: var(--bianco-sporco-2);
+  font-size: 13px;
+  font-family: var(--font-corpo);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+/* ─────────────────────────────────────────────────────
+   Animazioni di entrata
+   ───────────────────────────────────────────────────── */
+@keyframes fadeInSu {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulsazione {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.6; transform: scale(1.2); }
+}
+
+.animazione-entrata {
+  animation: fadeInSu 0.4s ease forwards;
+}
+
+/* ─────────────────────────────────────────────────────
+   Stile "tag" — etichetta tipo graffiti tamponata
+   ───────────────────────────────────────────────────── */
+.tag-urbano {
+  display: inline-block;
+  background: var(--rosso-mattone);
+  color: white;
+  font-family: var(--font-titoli);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border-radius: 2px;
+}
+
+.admin-navbar {
+  background: #1e40af; /* Barra Blu professionale */
+  color: white;
+  font-family: var(--font-titoli);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+}
+
+/* ─────────────────────────────────────────────────────
+   Divisore orizzontale decorativo
+   ───────────────────────────────────────────────────── */
+.divisore-urbano {
+  border: none;
+  height: 2px;
+  background: linear-gradient(
+    to right,
+    var(--rosso-mattone),
+    rgba(155, 41, 21, 0.3),
+    transparent
+  );
+  margin: 24px 0;
+}
+
+/* ─────────────────────────────────────────────────────
+   Utility responsive
+   ───────────────────────────────────────────────────── */
+@media (max-width: 600px) {
+  .contenitore {
+    padding: 0 16px;
+  }
+
+  .card {
+    padding: 20px 16px;
+  }
+}
+
+/* ─────────────────────────────────────────────────────
+   Levetta Toggle — interruttore stile industriale
+   Usato per il "Reset Mezzanotte" nella dashboard admin.
+   È un input checkbox nascosto collegato a uno slider
+   CSS che simula un interruttore fisico.
+   ───────────────────────────────────────────────────── */
+
+/* Contenitore esterno della levetta */
+.levetta-wrapper {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  padding: 20px;
+  background: var(--nero-medio);
+  border: 1px solid var(--nero-chiaro);
+  border-left: 3px solid var(--rosso-mattone);
+  border-radius: var(--raggio-bordo-lg);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+/* Lato sinistro: testo descrittivo */
+.levetta-testo {
+  flex: 1;
+}
+
+.levetta-nome {
+  font-family: var(--font-titoli);
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--bianco-sporco);
+  margin-bottom: 4px;
+}
+
+.levetta-descrizione {
+  font-family: var(--font-corpo);
+  font-size: 12px;
+  color: rgba(237, 232, 220, 0.4);
+  line-height: 1.5;
+}
+
+.giorno-numero {
+  font-family: var(--font-titoli);
+  font-size: 15px; /* Leggermente più grande */
+  font-weight: 800; /* Molto marcato */
+  color: #000000;  /* Nero assoluto per contrasto massimo */
+  align-self: flex-start;
+}
+
+/* Il <label> che avvolge l'interruttore — la parte cliccabile */
+.levetta-label {
+  position: relative;
+  display: inline-block;
+  width: 52px;
+  height: 28px;
+  flex-shrink: 0;
+  cursor: pointer;
+  margin-top: 2px;
+}
+
+/* Nascondiamo il vero <input type="checkbox"> sotto lo slider */
+.levetta-label input[type="checkbox"] {
+  opacity: 0;
+  width: 0;
+  height: 0;
+  position: absolute;
+}
+
+/* Lo "slider" — la barra orizzontale dell'interruttore */
+.levetta-slider {
+  position: absolute;
+  inset: 0;
+  background: rgba(237, 232, 220, 0.12);
+  border: 1px solid rgba(237, 232, 220, 0.2);
+  border-radius: 14px;
+  transition: background 0.25s ease, border-color 0.25s ease;
+}
+
+/* Il dischetto circolare che scorre da sinistra a destra */
+.levetta-slider::before {
+  content: '';
+  position: absolute;
+  left: 3px;
+  top: 50%;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: rgba(237, 232, 220, 0.4);
+  transform: translateY(-50%);
+  transition: left 0.25s ease, background 0.25s ease;
+}
+
+/* Quando il checkbox è spuntato → la levetta si accende */
+.levetta-label input:checked + .levetta-slider {
+  background: rgba(13, 59, 102, 0.6);   /* Sfondo blu */
+  border-color: var(--blu-mare-light);
+}
+
+.levetta-label input:checked + .levetta-slider::before {
+  left: calc(100% - 23px);              /* Il dischetto va a destra */
+  background: var(--blu-mare-light);    /* Diventa blu */
+}
+
+/* ─────────────────────────────────────────────────────
+   Checkbox urbana personalizzata
+   Sostituisce il checkbox del browser con uno stile
+   più coerente con il tema visivo.
+   ───────────────────────────────────────────────────── */
+.checkbox-urbano {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  user-select: none;
+}
+
+/* Nascondiamo il checkbox nativo */
+.checkbox-urbano input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgba(237, 232, 220, 0.3);
+  border-radius: 2px;
+  background: transparent;
+  cursor: pointer;
+  flex-shrink: 0;
+  position: relative;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+/* Quando il checkbox è spuntato */
+.checkbox-urbano input[type="checkbox"]:checked {
+  background: var(--rosso-mattone);
+  border-color: var(--rosso-mattone);
+}
+
+/* Il segno di spunta (✓) via CSS */
+.checkbox-urbano input[type="checkbox"]:checked::after {
+  content: '';
+  position: absolute;
+  left: 3px;
+  top: 0px;
+  width: 6px;
+  height: 10px;
+  border: 2px solid white;
+  border-top: none;
+  border-left: none;
+  transform: rotate(45deg);
+}
+
+/* Testo accanto al checkbox */
+.checkbox-urbano span {
+  font-family: var(--font-corpo);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--bianco-sporco-2);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+/* Quando la checkbox è spuntata, il testo cambia colore */
+.checkbox-urbano:has(input:checked) span {
+  color: var(--rosso-mattone-light);
+}

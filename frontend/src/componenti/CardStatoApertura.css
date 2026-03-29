@@ -1,0 +1,179 @@
+/* =====================================================
+   CardStatoApertura.css — Stile tema urbano/popolare
+   =====================================================
+   La card dello stato è la cosa più importante che
+   l'utente vede. La rendiamo grande, diretta, brutale
+   nel senso buono: come un cartello affisso al muro.
+   ===================================================== */
+
+/* Contenitore principale */
+.card-stato {
+  position: relative;
+  border-radius: var(--raggio-bordo, 4px);
+  padding: 0;
+  overflow: hidden;
+  border: none;
+  min-height: 260px;
+  display: flex;
+  align-items: flex-end;
+}
+
+/* Immagine di sfondo da Unsplash (street art / mare)
+   con overlay scuro per leggibilità del testo */
+.card-stato-sfondo {
+  position: absolute;
+  inset: 0;
+  /* Rimossa immagine di sfondo Unsplash — ora a tinta unita */
+  background: var(--nero-medio); /* Colore base della palette */
+  opacity: 1;
+}
+
+.stato-aperta .card-stato-sfondo { background-color: var(--verde-sfondo); }
+.stato-chiusa .card-stato-sfondo { background-color: var(--rosso-sfondo); } /* Stesso stile semitrasparente, ma rosso */
+
+/* Overlay — meno scuro dato che lo sfondo è a tinta unita */
+.card-stato-overlay {
+  position: absolute;
+  inset: 0;
+  background: transparent;
+}
+
+/* Barra colorata in cima — rossa se chiusa, verde se aperta */
+.card-stato-barra {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 5px;
+  transition: background 0.4s ease;
+}
+
+.stato-aperta .card-stato-barra  { background: var(--verde-urbano, #2D8A4E); }
+.stato-chiusa .card-stato-barra  { background: #ef4444; } /* Rosso solido invece di blu */
+
+/* Contenuto testuale sopra l'overlay */
+.card-stato-contenuto {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  padding: 32px 36px 36px;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centratura orizzontale richiesta */
+  justify-content: center; /* Centratura verticale richiesta */
+  min-height: 260px;
+  gap: 24px;
+}
+
+/* Parte sinistra: pallino + stato */
+.card-stato-sinistra {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Indicatore luminoso pulsante */
+.indicatore-contenitore {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.indicatore-pallino {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  animation: pulsazione 2s ease-in-out infinite;
+  flex-shrink: 0;
+}
+
+.pallino-verde {
+  background: var(--verde-urbano, #2D8A4E);
+  box-shadow: 0 0 10px var(--verde-urbano, #2D8A4E);
+}
+
+.pallino-rosso {
+  background: #ef4444;
+  box-shadow: 0 0 10px rgba(239, 68, 68, 0.5);
+}
+
+.indicatore-etichetta {
+  font-family: var(--font-corpo, 'Montserrat', sans-serif);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(237, 232, 220, 0.6);
+}
+
+/* Il testo grande "APERTA" / "CHIUSA" */
+.card-stato-testo {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  line-height: 1;
+}
+
+.stato-prefisso {
+  font-family: var(--font-corpo, 'Montserrat', sans-serif);
+  font-size: 14px;
+  font-weight: 400;
+  color: rgba(237, 232, 220, 0.65);
+  margin-bottom: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+/* Il nome dello stato in grande — usa Oswald per impatto */
+.stato-valore {
+  font-family: var(--font-titoli, 'Oswald', sans-serif);
+  font-size: clamp(52px, 10vw, 88px);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.testo-verde, .testo-rosso { 
+  color: white; 
+  background: transparent; 
+  padding: 0; 
+  border-radius: 0;
+  display: inline-block;
+}
+
+/* Classi rimosse perché non più necessarie */
+
+/* Data ultimo aggiornamento — in basso a destra */
+.card-stato-destra {
+  align-self: flex-end;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.card-stato-data {
+  font-family: var(--font-corpo, 'Montserrat', sans-serif);
+  font-size: 15px; /* Ingrandito per leggibilità */
+  color: rgba(237, 232, 220, 0.7); /* Più visibile */
+  font-weight: 500;
+  letter-spacing: 0.03em;
+}
+
+/* ─── Responsive mobile ─── */
+@media (max-width: 600px) {
+  .card-stato {
+    min-height: 220px;
+  }
+
+  .card-stato-contenuto {
+    padding: 24px 20px 28px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .card-stato-destra {
+    text-align: left;
+    align-self: flex-start;
+  }
+}

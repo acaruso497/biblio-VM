@@ -1,0 +1,137 @@
+/* =====================================================
+   TabellaOrari.css — Stile tema urbano
+   =====================================================
+   Gli orari sono visualizzati come un foglio affisso
+   all'ingresso: testo diretto, righe pulite, il giorno
+   di oggi spiccerà con il colore rosso mattone.
+   ===================================================== */
+
+/* Titolo della sezione orari */
+.tabella-orari-titolo {
+  font-family: var(--font-titoli, 'Oswald', sans-serif);
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--bianco-sporco, #EDE8DC);
+  margin-bottom: 4px;
+}
+
+/* Sottotitolo/descrizione */
+.tabella-orari-sottotitolo {
+  font-family: var(--font-corpo, 'Montserrat', sans-serif);
+  font-size: 12px;
+  color: #000000;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 20px;
+  font-weight: 500;
+}
+
+/* Griglia delle righe */
+.tabella-orari-griglia {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+/* Singola riga giorno */
+.riga-orario {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(237, 232, 220, 0.07);
+  transition: background 0.15s ease;
+  border-radius: 2px;
+}
+
+/* Ultima riga senza bordo */
+.riga-orario:last-child {
+  border-bottom: none;
+}
+
+/* ─── Riga di OGGI ─── */
+/* La rinforziamo visivamente con una lineetta rossa a sinistra */
+.riga-oggi {
+  padding-left: 12px;
+  border-left: 3px solid var(--rosso-mattone, #9B2915);
+  background: rgba(155, 41, 21, 0.06);
+  border-bottom-color: rgba(155, 41, 21, 0.2);
+}
+
+/* Parte sinistra (giorno + badge) */
+.riga-orario-giorno {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Nome del giorno — ora scuro per contrasto elevato */
+.nome-giorno {
+  font-family: var(--font-corpo, 'Montserrat', sans-serif);
+  font-size: 14px;
+  font-weight: 600;
+  color: #111827; /* Nero carbone/blu notte molto scuro */
+  letter-spacing: 0.02em;
+}
+
+/* Il giorno di oggi ha il nome in bianco sporco pieno */
+.riga-oggi .nome-giorno {
+  color: var(--bianco-sporco, #EDE8DC);
+  font-weight: 700;
+}
+
+/* Badge "OGGI" — stile timbro */
+.oggi-badge {
+  font-family: var(--font-titoli, 'Oswald', sans-serif);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  background: var(--rosso-mattone, #9B2915);
+  color: white;
+  padding: 2px 7px;
+  border-radius: 2px;
+}
+
+/* Parte destra (orario) */
+.riga-orario-valore {
+  font-family: var(--font-titoli, 'Oswald', sans-serif);
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+}
+
+.valore-aperto {
+  color: #6ee7a0;
+}
+
+.valore-chiuso {
+  color: #0D3B66;
+  font-style: normal;
+}
+
+/* Il valore di oggi in bianco */
+.riga-oggi .riga-orario-valore {
+  color: var(--bianco-sporco, #EDE8DC);
+}
+
+/* Messaggio se gli orari mancano */
+.tabella-orari-vuota {
+  color: rgba(237, 232, 220, 0.3);
+  font-size: 14px;
+  font-family: var(--font-corpo, 'Montserrat', sans-serif);
+  padding: 16px 0;
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 480px) {
+  .nome-giorno {
+    font-size: 13px;
+  }
+
+  .riga-orario-valore {
+    font-size: 14px;
+  }
+}

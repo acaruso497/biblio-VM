@@ -1,0 +1,447 @@
+/* =====================================================
+   PaginaAdmin.css — Dashboard Moderna Villa Medusa
+   ===================================================== */
+
+/* ─────────────────────────────────────────────────────
+   SCHERMATA DI LOGIN (Contrasto Elevato)
+   ───────────────────────────────────────────────────── */
+.login-sfondo {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 16px;
+  background-color: var(--nero-carbone);
+}
+
+.login-card {
+  width: 100%;
+  max-width: 440px;
+  background: var(--nero-medio);
+  border-top: 6px solid var(--arancio-acceso);
+  border-radius: var(--raggio-bordo-lg);
+  padding: 48px;
+  box-shadow: var(--ombra-dura);
+}
+
+.login-titolo {
+  font-family: var(--font-titoli);
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--bianco-sporco);
+  margin-bottom: 8px;
+  text-align: center;
+}
+
+.login-sottotitolo {
+  font-family: var(--font-corpo);
+  font-size: 14px;
+  color: var(--bianco-sporco-2);
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+/* ─────────────────────────────────────────────────────
+   NAVBAR SUPERIOR (Orizzontale / Full Width)
+   ───────────────────────────────────────────────────── */
+.admin-navbar {
+  background: #1e40af; /* Barra Blu professionale */
+  color: white;
+  padding: 12px 0;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.navbar-contenitore {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* Navigazione */
+.navbar-nav {
+  display: flex;
+  gap: 8px;
+  flex: 1;
+}
+
+.nav-link {
+  background: transparent;
+  border: none;
+  color: white;
+  padding: 10px 18px;
+  font-weight: 600;
+  font-family: var(--font-corpo);
+  font-size: 15px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.nav-link:hover {
+  background: rgba(255,255,255,0.05);
+  color: white;
+}
+
+.nav-link-attivo {
+  background: var(--arancio-acceso);
+  color: white !important;
+}
+
+/* Logo Centrale */
+.navbar-centro {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.navbar-logo-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.navbar-logo {
+  height: 48px;
+  width: auto;
+  border-radius: 4px;
+}
+
+.navbar-testo-logo {
+  font-family: var(--font-titoli);
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: white;
+}
+
+/* Fallback gradiente se immagine rotta */
+.logo-fallback-gradiente {
+  width: 48px;
+  height: 48px;
+  background: linear-gradient(135deg, var(--rosso-mattone), var(--arancio-acceso));
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Azioni a destra */
+.navbar-azioni {
+  display: flex;
+  gap: 12px;
+  flex: 1;
+  justify-content: flex-end;
+}
+
+/* ─────────────────────────────────────────────────────
+   LAYOT MAIN CONTENT (Schermo Intero)
+   ───────────────────────────────────────────────────── */
+.pagina-admin-layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: var(--nero-carbone);
+}
+
+.admin-main-content {
+  flex: 1;
+  padding: 40px 0;
+}
+
+.full-width {
+  max-width: 1200px !important; /* Larghezza professionale per la lettura */
+  width: 95%;
+  margin: 0 auto; /* Centratura perfetta del modulo al centro dello schermo */
+}
+
+/* ─────────────────────────────────────────────────────
+   VISTE DASHBOARD
+   ───────────────────────────────────────────────────── */
+
+.admin-header-titolo-vista {
+  margin-bottom: 32px;
+}
+
+.admin-header-titolo-vista h2 {
+  font-family: var(--font-titoli);
+  font-size: 32px;
+  color: var(--bianco-sporco);
+  margin-bottom: 8px;
+}
+
+.admin-header-titolo-vista p {
+  color: var(--bianco-sporco-2);
+  font-size: 16px;
+}
+
+/* Modale Overlay (Pop-up) */
+.calendario-modale-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.85); /* Sfondo scuro che blocca la visuale */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000; /* In primissimo piano */
+  backdrop-filter: blur(4px); /* Effetto sfocato professionale */
+  padding: 20px;
+}
+
+.calendario-modale {
+  background: white !important;
+  color: var(--nero-carbone) !important;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.4), 0 10px 10px -5px rgba(0, 0, 0, 0.4);
+  width: 100%;
+  max-width: 500px;
+  position: relative;
+  animation: modal-pop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes modal-pop {
+  0% { transform: scale(0.9); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.modale-titolo {
+  color: #000000 !important; /* Nero per massimo contrasto richiesto */
+  font-family: var(--font-titoli);
+  font-size: 24px;
+  margin-bottom: 12px;
+}
+
+.modale-testo {
+  color: #000000 !important; /* Testo scuro per leggibilità */
+  font-size: 16px;
+  line-height: 1.5;
+  margin-bottom: 24px;
+  font-family: var(--font-corpo);
+}
+
+.btn-modale-ok {
+  background: var(--arancio-acceso) !important;
+  color: white !important;
+  border: none;
+  padding: 10px 30px;
+  border-radius: 4px;
+  font-family: var(--font-titoli);
+  font-weight: 700;
+  text-transform: uppercase;
+  cursor: pointer;
+  box-shadow: var(--ombra-leggera);
+  transition: all 0.2s;
+}
+
+.btn-modale-ok:hover {
+  background: var(--rosso-mattone-scuro) !important;
+  transform: translateY(-1px);
+}
+
+/* Barra di salvataggio fissa opzionale */
+.admin-salvataggio-bar {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  background: white;
+  padding: 20px 24px;
+  border-radius: var(--raggio-bordo-lg);
+  box-shadow: var(--ombra-leggera);
+  margin-bottom: 32px;
+  border: 1px solid var(--nero-chiaro);
+}
+
+/* Layout a griglia per le card */
+.admin-grid-layout {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 32px;
+}
+
+.admin-sezione-stato {
+  grid-column: 1 / -1; /* Occupa tutta la riga (100% larghezza) */
+}
+
+.no-padding {
+  padding: 0 !important;
+}
+
+/* ─────────────────────────────────────────────────────
+   TOGGLE APERTA / CHIUSA (Contrasto Netto)
+   ───────────────────────────────────────────────────── */
+.stato-toggle-contenitore {
+  display: flex;
+  background: var(--nero-carbone);
+  border: 2px solid var(--nero-chiaro);
+  border-radius: 8px;
+  overflow: hidden;
+  margin-top: 16px;
+}
+
+.stato-toggle-opzione {
+  flex: 1;
+  padding: 16px;
+  border: none;
+  font-family: var(--font-titoli);
+  font-weight: 700;
+  text-transform: uppercase;
+  cursor: pointer;
+  background: transparent;
+  color: var(--bianco-sporco-2);
+  transition: all 0.2s;
+}
+
+.attivo-chiusa {
+  background: #ef4444 !important;
+  color: white !important;
+}
+
+.attivo-aperta {
+  background: #10b981 !important;
+  color: white !important;
+}
+
+/* ─────────────────────────────────────────────────────
+   NUOVE FUNZIONALITÀ (Reset Mezzanotte & Credenziali)
+   ───────────────────────────────────────────────────── */
+
+.reset-mezzanotte-box {
+  margin-top: 24px;
+  padding: 16px;
+  background: var(--nero-carbone);
+  border-radius: var(--raggio-bordo);
+  border: 1px solid var(--nero-chiaro);
+}
+
+.switch-label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  color: var(--bianco-sporco);
+  font-family: var(--font-corpo);
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.switch-testo {
+  letter-spacing: 0.02em;
+}
+
+/* Modal Tab UI */
+.tabs-modale {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 24px;
+  border-bottom: 1px solid var(--nero-chiaro);
+  padding-bottom: 12px;
+}
+
+.tab-btn {
+  background: transparent;
+  border: none;
+  color: var(--bianco-sporco-2);
+  font-family: var(--font-titoli);
+  font-weight: 700;
+  font-size: 14px;
+  text-transform: uppercase;
+  padding: 8px 16px;
+  cursor: pointer;
+  transition: all 0.2s;
+  border-radius: 4px;
+}
+
+.tab-btn:hover {
+  background: rgba(255,255,255,0.05);
+  color: white;
+}
+
+.tab-btn.attivo {
+  background: var(--arancio-acceso);
+  color: white;
+}
+
+.form-credenziali {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.credenziali-modale {
+  max-width: 480px;
+  width: 90%;
+  border-top: 6px solid var(--arancio-acceso);
+}
+
+/* --- BACHECA MESSAGGI (Grandezza Adattiva al Contenitore) --- */
+.admin-sezione-bacheca {
+  display: flex;
+  flex-direction: column;
+}
+
+.bacheca-contenitore {
+  display: flex;
+  width: 100%;
+  flex: 1; /* Permette al contenitore di riempire lo spazio residuo verticale */
+}
+
+.bacheca-textarea {
+  width: 100%;
+  flex: 1; /* Espande la textarea verticalmente insieme al suo contenitore */
+  box-sizing: border-box; /* Previene sbavature dovute al padding */
+  min-height: 220px;
+  height: 100%;
+  resize: none; /* Impedisce l'ingrandimento manuale */
+  padding: 16px;
+  background: var(--nero-carbone);
+  border: 1px solid var(--nero-chiaro);
+  color: var(--bianco-sporco);
+  font-family: var(--font-corpo);
+  line-height: 1.6;
+  border-radius: 8px;
+}
+
+.bacheca-textarea:focus {
+  border-color: var(--arancio-acceso);
+  outline: none;
+}
+
+/* ─────────────────────────────────────────────────────
+   RESPONSIVE
+   ───────────────────────────────────────────────────── */
+@media (max-width: 1100px) {
+  .navbar-contenitore {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 16px;
+  }
+  .navbar-nav, .navbar-azioni {
+    flex: none;
+  }
+  .navbar-centro {
+    order: -1;
+    width: 100%;
+    margin-bottom: 10px;
+  }
+}
+
+@media (max-width: 600px) {
+  .admin-grid-layout {
+    grid-template-columns: 1fr;
+  }
+  .nav-link {
+    padding: 8px 12px;
+    font-size: 13px;
+  }
+  .btn-arancio {
+    padding: 8px 16px;
+    font-size: 13px;
+  }
+}

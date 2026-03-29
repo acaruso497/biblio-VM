@@ -1,0 +1,222 @@
+/* =====================================================
+   PaginaPubblica.css — Layout tema urbano/popolare
+   =====================================================
+   Stile che ricorda i manifesti politici anni '70-'80,
+   gli spazi autogestiti e la cultura di strada.
+   ===================================================== */
+
+/* ─── Layout scheletro ─── */
+.pagina-pubblica {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* ─────────────────────────────────────────────────────
+   HEADER
+   Sfondo nero carbone con bordo rosso in basso.
+   Sticky per rimanere visibile durante lo scroll.
+   ───────────────────────────────────────────────────── */
+.pp-header {
+  background: #1e40af; /* Barra Blu professionale universale */
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  color: white;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+}
+
+.header-social-link {
+  color: white;
+  opacity: 0.8;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+}
+
+.header-social-link:hover {
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+.pp-header-interno {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 0;
+  gap: 16px;
+}
+
+/* Logo: quadrato rosso + testi */
+.pp-logo {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+/* Il quadrato rosso decorativo — ispirato ai poster constructivisti */
+.pp-logo-quadrato {
+  width: 36px;
+  height: 36px;
+  background: var(--rosso-mattone);
+  flex-shrink: 0;
+  /* Nessun border-radius — è volutamente squadrato */
+}
+
+.pp-link-admin:hover {
+  opacity: 0.8;
+}
+
+.pp-logo-immagine {
+  width: 70px;  /* Dimensione più armoniosa */
+  height: 70px;
+  object-fit: cover;
+  border-radius: 4px; /* un po' di bordo smussato se ci piace, altrimenti 0 */
+  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+  transition: transform 0.3s ease;
+}
+
+.pp-logo-immagine:hover {
+  transform: scale(1.05); /* piccolo effetto quando si passa sopra col mouse */
+}
+
+/* h1 piccolo nell'header */
+.pp-nome-biblioteca {
+  font-family: var(--font-titoli);
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: white; /* Testo bianco su blu */
+  line-height: 1.1;
+}
+
+/* Link admin — testo discreto, in alto a destra */
+.pp-link-admin {
+  font-family: var(--font-corpo);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--bianco-sporco);
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.pp-link-admin:hover {
+  color: var(--rosso-mattone);
+}
+
+/* Linea rossa sotto l'header — come la copertina di un libro */
+.pp-header-linea {
+  height: 3px;
+  background: var(--rosso-mattone);
+}
+
+/* ─────────────────────────────────────────────────────
+   MAIN
+   ───────────────────────────────────────────────────── */
+.pp-main {
+  flex: 1;
+  padding: 36px 0 56px;
+}
+
+/* Sezione card stato — a tutta larghezza */
+.pp-sezione-stato {
+  margin-bottom: 28px;
+  border-radius: var(--raggio-bordo);
+  overflow: hidden;
+  /* Ombra dura per un effetto "staccato" dalla parete */
+  box-shadow: 6px 6px 0px var(--rosso-mattone-scuro, #6E1A0D);
+}
+
+/* Griglia a due colonne per orari e messaggio */
+.pp-griglia-info {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+/* ─── Card messaggio speciale ─── */
+.pp-card-messaggio {
+  /* Barra superiore blu mare invece che rossa */
+  border-left-color: var(--blu-mare);
+  display: flex;
+  flex-direction: column;
+}
+
+.pp-messaggio-testo {
+  font-family: var(--font-corpo);
+  font-size: 18px; /* Più grande per bacheca */
+  color: var(--bianco-sporco); /* Contrasto netto */
+  line-height: 1.6;
+  font-weight: 500;
+  flex: 1;
+  white-space: pre-wrap; /* Preserva gli a capo */
+}
+
+/* ─────────────────────────────────────────────────────
+   FOOTER — sfondo blu mare profondo
+   ───────────────────────────────────────────────────── */
+.pp-footer {
+  background: var(--blu-mare);
+  padding: 28px 0;
+  margin-top: auto;
+  border-top: 3px solid var(--rosso-mattone);
+}
+
+.pp-footer-interno {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.pp-footer-nome {
+  font-family: var(--font-titoli);
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--bianco-sporco);
+}
+
+.pp-footer-copy {
+  font-family: var(--font-corpo);
+  font-size: 12px;
+  color: rgba(237, 232, 220, 0.4);
+  letter-spacing: 0.03em;
+}
+
+/* ─────────────────────────────────────────────────────
+   RESPONSIVE — mobile first
+   ───────────────────────────────────────────────────── */
+@media (max-width: 720px) {
+  /* Header più compatto */
+  .pp-nome-biblioteca    { font-size: 15px; }
+  .pp-sottotitolo-header { display: none; }
+  .pp-logo-quadrato      { width: 28px; height: 28px; }
+
+  /* Ombra più piccola su mobile */
+  .pp-sezione-stato {
+    box-shadow: 4px 4px 0px var(--rosso-mattone-scuro, #6E1A0D);
+  }
+
+  /* Una sola colonna su mobile */
+  .pp-griglia-info {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  /* Footer in colonna */
+  .pp-footer-interno {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+}
+
+@media (max-width: 400px) {
+  .pp-main { padding: 24px 0 40px; }
+  .pp-sezione-stato { margin-bottom: 20px; }
+}

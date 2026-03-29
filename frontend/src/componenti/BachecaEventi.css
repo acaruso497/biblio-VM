@@ -1,0 +1,203 @@
+/* =====================================================
+   BachecaEventi.css — Stile bacheca eventi
+   =====================================================
+   I chip dei giorni ricordano le schede di un archivio
+   o i bollini di un calendario da muro.
+   Il pannello del dettaglio ha un'aria da "nota
+   strappata e incollata" sulla bacheca.
+   ===================================================== */
+
+/* Contenitore principale */
+.bacheca-eventi-contenitore {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Intestazione */
+.bacheca-eventi-header {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.bacheca-eventi-titolo {
+  font-family: var(--font-titoli);
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--bianco-sporco);
+  margin: 4px 0 0;
+}
+
+.bacheca-eventi-sottotitolo {
+  font-family: var(--font-corpo);
+  font-size: 12px;
+  color: rgba(237, 232, 220, 0.35);
+  letter-spacing: 0.04em;
+}
+
+/* ─────────────────────────────────────────────────────
+   GRIGLIA DEI CHIP
+   7 chip orizzontali, uno per giorno.
+   ───────────────────────────────────────────────────── */
+.bacheca-chip-griglia {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+/* Singolo chip giorno */
+.bacheca-chip {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  width: 52px;
+  height: 52px;
+  border: none;
+  border-radius: var(--raggio-bordo);
+  cursor: pointer;
+  font-family: var(--font-titoli);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  transition: all 0.15s ease;
+  background: none;
+  padding: 0;
+}
+
+/* ─── Chip CON evento — visibile e cliccabile ─── */
+.chip-con-evento {
+  background: rgba(237, 232, 220, 0.08);
+  border: 1px solid rgba(237, 232, 220, 0.2);
+  color: var(--bianco-sporco);
+}
+
+.chip-con-evento:hover {
+  background: rgba(155, 41, 21, 0.2);
+  border-color: var(--rosso-mattone);
+  color: var(--bianco-sporco);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(155, 41, 21, 0.3);
+}
+
+/* ─── Chip SENZA evento — oscurato ─── */
+.chip-senza-evento {
+  background: rgba(237, 232, 220, 0.03);
+  border: 1px solid rgba(237, 232, 220, 0.06);
+  color: rgba(237, 232, 220, 0.18);
+  cursor: default;
+}
+
+/* ─── Chip "OGGI" — evidenziato con bordo blu ─── */
+.chip-oggi.chip-con-evento {
+  border-color: var(--blu-mare-light);
+  background: rgba(13, 59, 102, 0.2);
+}
+
+/* ─── Chip SELEZIONATO — attivo con bordo rosso solido ─── */
+.chip-selezionato {
+  background: rgba(155, 41, 21, 0.25) !important;
+  border-color: var(--rosso-mattone) !important;
+  box-shadow: 0 0 0 2px rgba(155, 41, 21, 0.3);
+  transform: translateY(-2px);
+}
+
+/* Abbreviazione del giorno */
+.chip-abbreviazione {
+  display: block;
+  line-height: 1;
+}
+
+/* Punto luminoso che indica la presenza dell'evento */
+.chip-punto-evento {
+  display: block;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--rosso-mattone);
+  animation: pulsazione 2.5s ease-in-out infinite;
+}
+
+/* Sul chip selezionato il punto diventa bianco */
+.chip-selezionato .chip-punto-evento {
+  background: var(--bianco-sporco);
+  animation: none;
+}
+
+/* ─────────────────────────────────────────────────────
+   PANNELLO DETTAGLIO EVENTO
+   Appare sotto la griglia chip quando si clicca
+   su un giorno con evento.
+   ───────────────────────────────────────────────────── */
+.bacheca-pannello-evento {
+  background: var(--nero-medio);
+  border: 1px solid rgba(237, 232, 220, 0.1);
+  border-left: 3px solid var(--rosso-mattone);
+  border-radius: var(--raggio-bordo);
+  padding: 20px 20px 20px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Riga in cima: nome giorno + bottone chiudi */
+.pannello-evento-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.pannello-evento-giorno {
+  font-family: var(--font-titoli);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--rosso-mattone);
+}
+
+.pannello-evento-chiudi {
+  background: none;
+  border: none;
+  color: rgba(237, 232, 220, 0.3);
+  font-size: 14px;
+  cursor: pointer;
+  padding: 2px 6px;
+  border-radius: 2px;
+  transition: color 0.1s ease;
+  font-family: var(--font-corpo);
+  line-height: 1;
+}
+
+.pannello-evento-chiudi:hover {
+  color: var(--bianco-sporco);
+}
+
+/* Testo della descrizione dell'evento */
+.pannello-evento-descrizione {
+  font-family: var(--font-corpo);
+  font-size: 15px;
+  color: var(--bianco-sporco);
+  line-height: 1.7;
+  font-weight: 400;
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 500px) {
+  .bacheca-chip-griglia {
+    gap: 6px;
+  }
+
+  .bacheca-chip {
+    width: 44px;
+    height: 44px;
+    font-size: 11px;
+  }
+}

@@ -1,0 +1,197 @@
+/* =====================================================
+   Calendario.css — Stile per la griglia del calendario
+   =====================================================
+   Usato sia dall'area admin che dall'area pubblica.
+   ===================================================== */
+
+.calendario-contenitore {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.calendario-header-controlli {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.mese-titolo {
+  font-family: var(--font-titoli);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--bianco-sporco);
+  text-transform: capitalize;
+  letter-spacing: 0.04em;
+}
+
+.btn-mese {
+  background: rgba(237, 232, 220, 0.1);
+  border: 1px solid rgba(237, 232, 220, 0.2);
+  color: var(--bianco-sporco);
+  padding: 6px 14px;
+  border-radius: var(--raggio-bordo);
+  cursor: pointer;
+  font-family: var(--font-titoli);
+  font-size: 14px;
+  transition: background 0.2s;
+}
+
+.btn-mese:hover {
+  background: rgba(237, 232, 220, 0.2);
+}
+
+.calendario-griglia {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+}
+
+.giorno-intestazione {
+  text-align: center;
+  font-family: var(--font-corpo);
+  font-size: 13px; /* Leggermente più grande */
+  font-weight: 800; /* Molto marcato */
+  text-transform: uppercase;
+  color: #000000; /* Nero assoluto per contrasto massimo */
+  padding-bottom: 12px;
+  opacity: 1;
+}
+
+.giorno-cella {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(237, 232, 220, 0.05);
+  border-radius: var(--raggio-bordo);
+  min-height: 70px;
+  padding: 6px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.giorno-vuoto {
+  background: transparent;
+  border-color: transparent;
+}
+
+.giorno-cella.cliccabile:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(237, 232, 220, 0.2);
+  cursor: pointer;
+}
+
+.giorno-numero {
+  font-family: var(--font-titoli);
+  font-size: 15px; /* Leggermente più grande */
+  font-weight: 800; /* Molto marcato */
+  color: #000000;  /* Nero assoluto per contrasto massimo */
+  align-self: flex-start;
+}
+
+.giorno-oggi .giorno-numero {
+  color: var(--rosso-mattone);
+}
+
+.giorno-oggi {
+  border-color: rgba(155, 41, 21, 0.4);
+  background: rgba(155, 41, 21, 0.05);
+}
+
+/* Giorno con attività */
+.giorno-con-attivita {
+  border-color: var(--blu-mare-light);
+  background: rgba(13, 59, 102, 0.15);
+}
+
+.giorno-con-attivita .attivita-preview {
+  margin-top: auto;
+  font-family: var(--font-corpo);
+  font-size: 10px;
+  line-height: 1.2;
+  color: var(--bianco-sporco);
+  background: var(--blu-mare);
+  padding: 3px 5px;
+  border-radius: 2px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Modale o Dettaglio */
+.calendario-dettaglio {
+  background: var(--nero-medio);
+  border-left: 3px solid var(--blu-mare-light);
+  padding: 16px;
+  border-radius: var(--raggio-bordo);
+  margin-top: 16px;
+}
+
+.dettaglio-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.dettaglio-data {
+  font-family: var(--font-titoli);
+  font-size: 18px;
+  color: #000000; /* Nero per massima leggibilità */
+  font-weight: 700;
+}
+
+.btn-chiudi {
+  background: none;
+  border: none;
+  color: rgba(237, 232, 220, 0.5);
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.btn-chiudi:hover {
+  color: white;
+}
+
+/* Modalità Admin Form */
+.form-attivita {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.form-azioni {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.btn-elimina {
+  background: var(--rosso-allarme);
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: var(--raggio-bordo);
+  font-family: var(--font-titoli);
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.btn-elimina:hover {
+  background: #a93226;
+}
+
+@media (max-width: 600px) {
+  .giorno-cella {
+    min-height: 50px;
+    padding: 4px;
+  }
+  .giorno-numero {
+    font-size: 12px;
+  }
+  .attivita-preview {
+    font-size: 9px;
+  }
+}
