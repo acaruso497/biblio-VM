@@ -45,6 +45,7 @@
   justify-content: space-between;
   padding: 18px 0;
   gap: 16px;
+  flex-wrap: wrap; /* Permette il wrap su schermi piccoli */
 }
 
 /* Logo: quadrato rosso + testi */
@@ -193,7 +194,7 @@
    ───────────────────────────────────────────────────── */
 @media (max-width: 720px) {
   /* Header più compatto */
-  .pp-nome-biblioteca    { font-size: 15px; }
+  .pp-nome-biblioteca    { font-size: 18px; }
   .pp-sottotitolo-header { display: none; }
   .pp-logo-quadrato      { width: 28px; height: 28px; }
 
@@ -213,6 +214,37 @@
     flex-direction: column;
     align-items: flex-start;
     gap: 6px;
+  }
+}
+
+/* Modifiche specifiche per mobile < 600px come richiesto */
+@media (max-width: 600px) {
+  .pp-header-interno {
+    flex-direction: column;
+    gap: 12px;
+    padding: 12px 0;
+  }
+
+  .pp-header-interno > div {
+    flex: none !important;
+    width: 100%;
+    justify-content: center !important;
+    text-align: center;
+  }
+
+  .pp-logo-immagine {
+    width: 50px;
+    height: 50px;
+  }
+
+  .pp-nome-biblioteca {
+    font-size: 18px !important;
+    margin-top: 4px !important;
+  }
+
+  .btn-arancio {
+    font-size: 12px !important;
+    padding: 8px 16px !important;
   }
 }
 
