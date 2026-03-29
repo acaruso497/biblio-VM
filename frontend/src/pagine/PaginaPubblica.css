@@ -113,12 +113,12 @@
 
 .pp-header-right-col .btn-arancio {
   /* Allineato al centro del logo, spostato a destra come richiesto */
-  transform: translateY(-18px) translateX(12px);
+  transform: translateY(-14px) translateX(12px);
   transition: all 0.3s ease;
 }
 
 .pp-header-right-col .btn-arancio:hover {
-  transform: translateY(-20px) translateX(12px) scale(1.05);
+  transform: translateY(-16px) translateX(12px) scale(1.05);
 }
 
 /* Linea rossa sotto l'header — come la copertina di un libro */
@@ -258,7 +258,7 @@
 
   /* Rimuovo offset forzato su mobile perché non c'è spazio */
   .pp-header-right-col .btn-arancio {
-    transform: translateY(-15px) translateX(8px) !important;
+    transform: translateY(-11px) translateX(8px) !important;
   }
 
   .pp-logo-immagine {
