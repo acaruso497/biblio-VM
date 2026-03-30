@@ -163,3 +163,146 @@
   opacity: 0.3;
   cursor: not-allowed;
 }
+
+/* --- Nuovi Stili Pulsanti Header Identici --- */
+.prestiti-azioni {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+/* Forza dimensioni e stile identici tra i due bottoni principali */
+.prestiti-azioni .btn-elimina,
+.prestiti-azioni .bottone-primario {
+  height: 42px !important;
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  padding: 0 20px !important;
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-radius: var(--raggio-bordo) !important;
+  border: none !important;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  box-shadow: var(--ombra-leggera);
+}
+
+.prestiti-azioni .btn-elimina {
+  background: var(--rosso-allarme) !important;
+  color: white !important;
+}
+
+.prestiti-azioni .btn-elimina:hover {
+  background: #C0392B !important;
+  transform: translateY(-1px);
+}
+
+.prestiti-azioni .bottone-primario {
+  background: var(--arancio-acceso) !important;
+  color: white !important;
+  margin: 0 !important; 
+}
+
+/* --- RESPONSIVE — MOBILE (MAX 720px) --- */
+@media (max-width: 720px) {
+  .prestiti-header {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 16px;
+    gap: 16px;
+  }
+
+  .prestiti-titolo {
+    font-size: 18px;
+  }
+
+  .prestiti-azioni {
+    width: 100%;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .prestiti-azioni .btn-elimina,
+  .prestiti-azioni .bottone-primario {
+    width: 100% !important;
+    font-size: 12px !important;
+    height: 48px !important; /* Più facili da cliccare su mobile */
+  }
+
+  /* Trasformazione Tabella in Card */
+  .tabella-prestiti-wrapper {
+    padding: 0 16px 16px;
+  }
+
+  .tabella-prestiti, 
+  .tabella-prestiti thead, 
+  .tabella-prestiti tbody, 
+  .tabella-prestiti th, 
+  .tabella-prestiti td, 
+  .tabella-prestiti tr {
+    display: block;
+  }
+
+  .tabella-prestiti thead tr {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+  }
+
+  .tabella-prestiti tr {
+    background: var(--nero-medio);
+    border: 1px solid var(--nero-chiaro);
+    border-radius: 8px;
+    margin-bottom: 12px;
+    padding: 12px;
+    box-shadow: 2px 2px 0px var(--nero-chiaro);
+  }
+
+  .tabella-prestiti td {
+    border: none;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+    position: relative;
+    padding: 10px 0 10px 40% !important;
+    text-align: right;
+    min-height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+  }
+
+  .tabella-prestiti td:last-child {
+    border-bottom: none;
+    justify-content: center;
+    padding-left: 0 !important;
+    margin-top: 8px;
+  }
+
+  /* Label mobile tramite data-label */
+  .tabella-prestiti td::before {
+    content: attr(data-label);
+    position: absolute;
+    left: 0;
+    width: 35%;
+    padding-right: 10px;
+    white-space: nowrap;
+    text-align: left;
+    font-weight: 700;
+    font-size: 10px;
+    color: var(--bianco-sporco-2);
+    text-transform: uppercase;
+  }
+
+  .libro-titolo {
+    font-size: 14px;
+    white-space: normal;
+  }
+
+  .utente-nome {
+    font-size: 13px;
+  }
+}
+

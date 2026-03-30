@@ -152,7 +152,7 @@ function GestionePrestiti() {
 
       <div className="prestiti-header">
         <h3 className="prestiti-titolo">Catalogo Uscite</h3>
-        <div style={{ display: 'flex', gap: '12px' }}>
+        <div className="prestiti-azioni">
           <button className="btn-elimina" onClick={() => setMostraConfermaSvuota(true)}>Pulisci Archivio</button>
           <button className="bottone-primario" onClick={() => setModaleAperto(true)}>
             + Nuovo Prestito
@@ -188,17 +188,17 @@ function GestionePrestiti() {
               ) : (
                 prestiti.map(p => (
                   <tr key={p.id} className={p.stato === 'RESTITUITO' ? 'riga-restituita' : ''}>
-                    <td>
+                    <td data-label="Libro">
                       <div className="libro-titolo">{p.titolo_libro}</div>
                       <div className="libro-genere">{p.genere || 'N/A'}</div>
                     </td>
-                    <td>
+                    <td data-label="Utente">
                       <div className="utente-nome">{p.nome_utente}</div>
                       <div className="utente-telefono">{p.telefono_utente || 'Nessun recapito'}</div>
                     </td>
-                    <td>{formattaData(p.data_prestito)}</td>
-                    <td>{p.stato === 'RESTITUITO' ? formattaData(p.data_restituzione) : '-'}</td>
-                    <td>
+                    <td data-label="Preso il">{formattaData(p.data_prestito)}</td>
+                    <td data-label="Reso il">{p.stato === 'RESTITUITO' ? formattaData(p.data_restituzione) : '-'}</td>
+                    <td data-label="Azione">
                       {p.stato === 'IN_PRESTITO' ? (
                          <button 
                            className="bottone-rientro" 
