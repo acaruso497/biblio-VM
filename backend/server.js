@@ -30,7 +30,11 @@ const app = express();
 // Middleware globali (non cambiano rispetto a prima)
 // ─────────────────────────────────────────────────────
 app.use(cors({
-  origin: process.env.FRONTEND_URL || 'http://localhost:5173',
+  origin: [
+    process.env.FRONTEND_URL,
+    'https://villa-medusa.vercel.app',
+    'http://localhost:5173'
+  ].filter(Boolean),
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
 }));
 app.use(express.json());

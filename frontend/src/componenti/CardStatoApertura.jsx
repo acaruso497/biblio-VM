@@ -54,7 +54,9 @@ function CardStatoApertura({ eAperta, aggiornatoIl }) {
         {/* Destra: data dell'ultimo aggiornamento */}
         {dataFormattata && (
           <div className="card-stato-destra">
-            <p className="card-stato-data">Aggiornato il {dataFormattata}</p>
+            <p className="card-stato-data" style={{ color: eAperta ? '#065F46' : '#6E1A0D', fontWeight: 'bold' }}>
+              Aggiornato il {dataFormattata}
+            </p>
           </div>
         )}
 
