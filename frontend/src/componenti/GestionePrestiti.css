@@ -207,206 +207,210 @@
   margin: 0 !important; 
 }
 
-/* --- RESPONSIVE — MOBILE (MAX 720px) --- */
-@media (max-width: 720px) {
-  .prestiti-header {
-    flex-direction: column;
-    align-items: stretch;
-    padding: 16px;
-    gap: 16px;
-    background: transparent;
-    border-bottom: none;
+/* --- RESPONSIVE — MOBILE (MAX 768px) --- */
+/* Aumentata la specificità per sovrascrivere stili globali e forzato display block/flex */
+@media screen and (max-width: 768px) {
+  
+  .gestione-prestiti-contenitore .prestiti-header {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    padding: 16px !important;
+    gap: 16px !important;
+    background: var(--nero-carbone) !important;
   }
 
-  .prestiti-titolo {
-    font-size: 18px;
-    text-align: center;
-    margin-bottom: 8px;
+  .gestione-prestiti-contenitore .prestiti-titolo {
+    font-size: 18px !important;
+    text-align: center !important;
+    margin-bottom: 8px !important;
   }
 
-  .prestiti-azioni {
-    width: 100%;
-    flex-direction: column;
-    gap: 12px;
+  .gestione-prestiti-contenitore .prestiti-azioni {
+    width: 100% !important;
+    flex-direction: column !important;
+    gap: 12px !important;
   }
 
-  .prestiti-azioni .btn-elimina,
-  .prestiti-azioni .bottone-primario {
+  .gestione-prestiti-contenitore .prestiti-azioni .btn-elimina,
+  .gestione-prestiti-contenitore .prestiti-azioni .bottone-primario {
     width: 100% !important;
     font-size: 13px !important;
     height: 50px !important;
     border-radius: 10px !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
   }
 
-  /* Trasformazione Tabella in Card */
-  .tabella-prestiti-wrapper {
-    padding: 0 16px 24px;
+  /* FORZATURA TABELLA IN CARDS */
+  .gestione-prestiti-contenitore .tabella-prestiti-wrapper {
+    padding: 0 16px 32px !important;
   }
 
-  .tabella-prestiti, 
-  .tabella-prestiti thead, 
-  .tabella-prestiti tbody, 
-  .tabella-prestiti th, 
-  .tabella-prestiti td, 
-  .tabella-prestiti tr {
-    display: block;
+  .gestione-prestiti-contenitore .tabella-prestiti, 
+  .gestione-prestiti-contenitore .tabella-prestiti thead, 
+  .gestione-prestiti-contenitore .tabella-prestiti tbody, 
+  .gestione-prestiti-contenitore .tabella-prestiti th, 
+  .gestione-prestiti-contenitore .tabella-prestiti td, 
+  .gestione-prestiti-contenitore .tabella-prestiti tr {
+    display: block !important;
+    width: 100% !important;
   }
 
-  .tabella-prestiti thead tr {
-    position: absolute;
-    top: -9999px;
-    left: -9999px;
-  }
-
-  .tabella-prestiti tr {
-    background: var(--nero-carbone);
-    border: 1px solid var(--nero-chiaro);
-    border-radius: 12px;
-    margin-bottom: 20px;
-    padding: 20px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-    position: relative;
-    overflow: hidden;
-  }
-
-  /* Rimuoviamo il layout a due colonne del vecchio stile responsive */
-  .tabella-prestiti td {
-    border: none;
-    padding: 0 !important;
-    margin-bottom: 14px;
-    text-align: left;
-    min-height: auto;
-    display: block;
-    width: 100%;
-  }
-
-  .tabella-prestiti td::before {
+  .gestione-prestiti-contenitore .tabella-prestiti thead tr {
+    position: absolute !important;
+    top: -9999px !important;
+    left: -9999px !important;
     display: none !important;
   }
 
-  /* 1. Titolo Libro e Tag Genere sulla stessa riga */
-  .tabella-prestiti td[data-label="Libro"] {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-bottom: 12px;
-    border-bottom: 1px solid var(--nero-chiaro);
-    padding-bottom: 12px !important;
+  /* La riga diventa una Card */
+  .gestione-prestiti-contenitore .tabella-prestiti tr {
+    background: var(--nero-carbone) !important;
+    border: 2px solid var(--nero-chiaro) !important;
+    border-radius: 16px !important;
+    margin-bottom: 24px !important;
+    padding: 24px !important;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4) !important;
+    position: relative !important;
+    overflow: hidden !important;
   }
 
-  .libro-titolo {
-    font-size: 17px;
-    margin-bottom: 0;
-    color: var(--arancio-acceso);
-    font-weight: 700;
-    flex: 0 1 auto;
+  /* Nascondiamo TUTTE le vecchie etichette ::before che causavano il layout a due colonne */
+  .gestione-prestiti-contenitore .tabella-prestiti td::before {
+    display: none !important;
+    content: none !important;
+    position: static !important;
   }
 
-  .libro-genere {
-    font-size: 10px;
-    padding: 3px 8px;
-    background: var(--nero-chiaro);
-    border: 1px solid rgba(255,255,255,0.1);
-    white-space: nowrap;
+  .gestione-prestiti-contenitore .tabella-prestiti td {
+    border: none !important;
+    padding: 0 !important;
+    margin-bottom: 16px !important;
+    text-align: left !important;
+    min-height: auto !important;
+    color: var(--bianco-sporco) !important;
+  }
+
+  /* 1. Titolo e Genere affiancati */
+  .gestione-prestiti-contenitore .tabella-prestiti td[data-label="Libro"] {
+    display: flex !important;
+    align-items: center !important;
+    flex-wrap: wrap !important;
+    gap: 12px !important;
+    margin-bottom: 16px !important;
+    border-bottom: 1px solid rgba(255,255,255,0.1) !important;
+    padding-bottom: 16px !important;
+  }
+
+  .gestione-prestiti-contenitore .libro-titolo {
+    font-size: 19px !important;
+    margin-bottom: 0 !important;
+    color: var(--arancio-acceso) !important;
+    font-weight: 800 !important;
+    flex: 0 1 auto !important;
+    line-height: 1.3 !important;
+  }
+
+  .gestione-prestiti-contenitore .libro-genere {
+    font-size: 11px !important;
+    padding: 4px 10px !important;
+    background: var(--nero-chiaro) !important;
+    border: 1px solid rgba(255,255,255,0.1) !important;
+    text-transform: uppercase !important;
+    white-space: nowrap !important;
+    border-radius: 4px !important;
   }
 
   /* 2. Nome e Cognome */
-  .tabella-prestiti td[data-label="Utente"] {
-    margin-bottom: 12px;
+  .gestione-prestiti-contenitore .tabella-prestiti td[data-label="Utente"] {
+    margin-bottom: 12px !important;
   }
 
-  .utente-nome {
-    font-size: 15px;
-    color: var(--bianco-sporco);
-    font-weight: 600;
-    margin-bottom: 4px;
-    display: block;
+  .gestione-prestiti-contenitore .utente-nome {
+    font-size: 16px !important;
+    color: var(--bianco-sporco) !important;
+    font-weight: 700 !important;
+    margin-bottom: 6px !important;
+    display: block !important;
+    white-space: normal !important; /* Evita sovrapposizioni o tagli */
   }
 
-  /* 3. Recapito Telefonico */
-  .utente-telefono {
-    font-size: 13px;
-    color: var(--bianco-sporco-2);
-    display: block;
-    opacity: 0.9;
+  /* 3. Recapito Telefonico (sotto al nome) */
+  .gestione-prestiti-contenitore .utente-telefono {
+    font-size: 14px !important;
+    color: var(--bianco-sporco-2) !important;
+    display: block !important;
+    opacity: 0.8 !important;
   }
 
   /* 4. Data Prestito e 5. Data Rientro */
-  .tabella-prestiti td[data-label="Preso il"],
-  .tabella-prestiti td[data-label="Reso il"] {
-    font-family: var(--font-corpo);
-    font-size: 13px;
-    color: var(--bianco-sporco-2);
-    margin-bottom: 6px;
-    display: flex;
-    align-items: center;
+  .gestione-prestiti-contenitore .tabella-prestiti td[data-label="Preso il"],
+  .gestione-prestiti-contenitore .tabella-prestiti td[data-label="Reso il"] {
+    font-size: 14px !important;
+    color: var(--bianco-sporco-2) !important;
+    margin-bottom: 8px !important;
+    display: flex !important;
+    align-items: center !important;
   }
 
-  .tabella-prestiti td[data-label="Preso il"]::before {
+  /* Riaffiliamo le etichette solo per le date come richiesto */
+  .gestione-prestiti-contenitore .tabella-prestiti td[data-label="Preso il"]::before {
     display: inline-block !important;
     content: "Data prestito: " !important;
-    position: static !important;
-    font-weight: 600;
-    font-size: 13px;
-    color: var(--bianco-sporco-2);
-    margin-right: 6px;
+    font-weight: 600 !important;
+    margin-right: 8px !important;
+    color: var(--bianco-sporco-2) !important;
     text-transform: none !important;
-    width: auto !important;
   }
 
-  .tabella-prestiti td[data-label="Reso il"]::before {
+  .gestione-prestiti-contenitore .tabella-prestiti td[data-label="Reso il"]::before {
     display: inline-block !important;
     content: "Data rientro: " !important;
-    position: static !important;
-    font-weight: 600;
-    font-size: 13px;
-    color: var(--bianco-sporco-2);
-    margin-right: 6px;
+    font-weight: 600 !important;
+    margin-right: 8px !important;
+    color: var(--bianco-sporco-2) !important;
     text-transform: none !important;
-    width: auto !important;
   }
 
-  /* 6. Pulsante Azione / Badge */
-  .tabella-prestiti td[data-label="Azione"] {
-    margin-top: 15px;
-    margin-bottom: 0;
-    display: flex;
-    justify-content: center;
-    width: 100%;
+  /* 6. Pulsante Azione / Badge (Largo quanto il contenitore) */
+  .gestione-prestiti-contenitore .tabella-prestiti td[data-label="Azione"] {
+    margin-top: 20px !important;
+    margin-bottom: 0 !important;
+    display: block !important;
+    width: 100% !important;
   }
 
-  .bottone-rientro {
-    width: 100%;
-    height: 46px;
-    font-size: 14px;
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  .gestione-prestiti-contenitore .bottone-rientro {
+    width: 100% !important;
+    height: 52px !important;
+    font-size: 15px !important;
+    border-radius: 10px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    letter-spacing: 0.5px !important;
   }
 
-  .badge-concluso {
-    width: 100%;
-    text-align: center;
-    padding: 10px;
-    font-size: 12px;
-    background: rgba(46, 204, 113, 0.1);
+  .gestione-prestiti-contenitore .badge-concluso {
+    width: 100% !important;
+    text-align: center !important;
+    padding: 12px !important;
+    font-size: 13px !important;
+    display: block !important;
+    background: rgba(46, 204, 113, 0.1) !important;
+    border-radius: 8px !important;
   }
 
-  /* Gestione bottone elimina mini in mobilità */
-  .tabella-prestiti td[data-label="Azione"] > div {
-    width: 100%;
-    flex-direction: column;
-    gap: 12px !important;
-  }
-
-  .btn-mini-elimina {
-    align-self: flex-end;
-    position: absolute;
-    top: 15px;
-    right: 15px;
-    background: rgba(231, 76, 60, 0.1);
+  /* Mini bottone elimina (Spostato per non disturbare il layout card) */
+  .gestione-prestiti-contenitore .btn-mini-elimina {
+    position: absolute !important;
+    top: 20px !important;
+    right: 20px !important;
+    width: 30px !important;
+    height: 30px !important;
+    background: rgba(231, 76, 60, 0.1) !important;
+    border: 1px solid var(--rosso-allarme) !important;
   }
 }
 
