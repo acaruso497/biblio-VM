@@ -1,0 +1,92 @@
+{
+  "version": 2,
+  "crons": [
+    {
+      "path": "/api/cron/reset-mezzanotte",
+      "schedule": "0 0 * * *"
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/api/ping",
+      "destination": "/api/ping.js"
+    },
+    {
+      "source": "/api/auth/login",
+      "destination": "/api/auth/login.js"
+    },
+    {
+      "source": "/api/auth/cambia-username",
+      "destination": "/api/auth/cambia-username.js"
+    },
+    {
+      "source": "/api/auth/cambia-password",
+      "destination": "/api/auth/cambia-password.js"
+    },
+    {
+      "source": "/api/biblioteca/stato",
+      "destination": "/api/biblioteca/stato.js"
+    },
+    {
+      "source": "/api/biblioteca/aggiorna",
+      "destination": "/api/biblioteca/aggiorna.js"
+    },
+    {
+      "source": "/api/calendario/mese",
+      "destination": "/api/calendario/mese.js"
+    },
+    {
+      "source": "/api/calendario",
+      "methods": [
+        "POST"
+      ],
+      "destination": "/api/calendario/salva.js"
+    },
+    {
+      "source": "/api/calendario/:data",
+      "methods": [
+        "DELETE"
+      ],
+      "destination": "/api/calendario/elimina/[data].js"
+    },
+    {
+      "source": "/api/prestiti",
+      "methods": [
+        "GET"
+      ],
+      "destination": "/api/prestiti/elenco.js"
+    },
+    {
+      "source": "/api/prestiti",
+      "methods": [
+        "POST"
+      ],
+      "destination": "/api/prestiti/nuovo.js"
+    },
+    {
+      "source": "/api/prestiti/svuota-tutto",
+      "methods": [
+        "DELETE"
+      ],
+      "destination": "/api/prestiti/svuota-tutto.js"
+    },
+    {
+      "source": "/api/prestiti/:id/restituisci",
+      "methods": [
+        "PUT"
+      ],
+      "destination": "/api/prestiti/restituisci/[id].js"
+    },
+    {
+      "source": "/api/prestiti/:id",
+      "methods": [
+        "DELETE"
+      ],
+      "destination": "/api/prestiti/elimina/[id].js"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/frontend/dist/index.html"
+    }
+  ]
+}

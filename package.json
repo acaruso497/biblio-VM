@@ -1,0 +1,11 @@
+{
+  "name": "villa-medusa-fullstack",
+  "version": "1.0.0",
+  "description": "Biblioteca Villa Medusa - Fullstack su Vercel",
+  "scripts": {
+    "build": "cd frontend && npm install && npm run build"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

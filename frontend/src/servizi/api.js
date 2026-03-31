@@ -17,8 +17,8 @@ import axios from 'axios';
 let tokenCorrente = null;
 let usernameCorrente = null;
 
-// L'indirizzo base del nostro server backend su Render.
-const URL_BASE_SERVER = 'https://biblio-vm.onrender.com/api';
+// L'indirizzo base del nostro server (relativo per Vercel).
+const URL_BASE_SERVER = '/api';
 
 // Creiamo un'istanza di axios pre-configurata.
 const chiamataHTTP = axios.create({
