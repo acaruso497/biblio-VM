@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Biblioteca Villa Medusa - Fullstack su Vercel",
   "scripts": {
-    "build": "cd frontend && npm install && npm run build"
+    "build": "cd frontend && npm install && npm run build && cp -r dist ../public"
   },
   "dependencies": {
     "bcrypt": "^5.1.1",

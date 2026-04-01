@@ -9,12 +9,12 @@
   "rewrites": [
     { "source": "/api/(.*)", "destination": "/api/$1" },
 
-    { "source": "/assets/(.*)", "destination": "/frontend/dist/assets/$1" },
-    { "source": "/favicon.svg", "destination": "/frontend/dist/favicon.svg" },
-    { "source": "/hero.png", "destination": "/frontend/dist/hero.png" },
-    { "source": "/logo.jpg", "destination": "/frontend/dist/logo.jpg" },
-    { "source": "/icons.svg", "destination": "/frontend/dist/icons.svg" },
+    { "source": "/assets/(.*)", "destination": "/public/assets/$1" },
+    { "source": "/favicon.svg", "destination": "/public/favicon.svg" },
+    { "source": "/hero.png", "destination": "/public/hero.png" },
+    { "source": "/logo.jpg", "destination": "/public/logo.jpg" },
+    { "source": "/icons.svg", "destination": "/public/icons.svg" },
     
-    { "source": "/(.*)", "destination": "/frontend/dist/index.html" }
+    { "source": "/(.*)", "destination": "/public/index.html" }
   ]
 }
