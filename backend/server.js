@@ -11,6 +11,7 @@ require('dotenv').config();
 
 const express  = require('express');
 const cors     = require('cors');
+const pool     = require('./database');
 
 const routerAutenticazione   = require('./routes/autenticazione');
 const routerBiblioteca       = require('./routes/biblioteca');
@@ -37,6 +38,17 @@ app.use('/api/prestiti',   routerPrestiti);
 
 app.get('/api/ping', (req, res) => {
   res.json({ messaggio: '🏛️ Il server della biblioteca è attivo su Vercel (base Express)!' });
+});
+
+app.get('/api/keepalive', async (req, res) => {
+  res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+  try {
+    await pool.query('SELECT 1');
+    res.status(200).json({ server: 'active', database: 'active' });
+  } catch (err) {
+    console.error('[keepalive] Errore database:', err);
+    res.status(500).json({ server: 'active', database: 'error' });
+  }
 });
 
 module.exports = app; // Esportiamo l'app per eventuale uso come funzione unica
