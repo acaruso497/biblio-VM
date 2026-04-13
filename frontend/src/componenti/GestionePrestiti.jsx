@@ -28,6 +28,16 @@ function GestionePrestiti() {
     caricaPrestiti();
   }, []);
 
+  // Task 4: blocca lo scroll del body quando una modale è aperta
+  useEffect(() => {
+    if (modaleAperto || pDaRestituire || mostraConfermaSvuota || pDaEliminare) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => { document.body.style.overflow = ''; };
+  }, [modaleAperto, pDaRestituire, mostraConfermaSvuota, pDaEliminare]);
+
   async function caricaPrestiti() {
     try {
       setCaricamento(true);

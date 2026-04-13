@@ -181,16 +181,19 @@
   font-size: 16px;
 }
 
-/* Modale Overlay (Pop-up) */
+/* Modale Overlay (Pop-up) - Task 1 & 2 Definitive Fix */
 .calendario-modale-overlay {
   position: fixed;
-  inset: 0;
-  background-color: rgba(0, 0, 0, 0.85); /* Sfondo scuro che blocca la visuale */
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.85); /* Sfondo scuro statico e permanente */
   display: flex;
-  align-items: center;
   justify-content: center;
-  z-index: 10000; /* In primissimo piano */
-  backdrop-filter: blur(4px); /* Effetto sfocato professionale */
+  align-items: center;
+  z-index: 99999; /* Z-index altissimo per coprire tutto, inclusa la navbar */
+  backdrop-filter: blur(4px);
   padding: 20px;
 }
 
@@ -413,6 +416,11 @@
 .bacheca-textarea:focus {
   border-color: var(--arancio-acceso);
   outline: none;
+}
+
+/* Task 3 - Blocco resize textarea */
+.campo-textarea {
+  resize: none !important;
 }
 
 /* ─────────────────────────────────────────────────────

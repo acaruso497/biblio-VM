@@ -47,9 +47,11 @@ function CalendarioAdmin() {
     return `${giorno}/${mese}/${anno}`;
   }
 
+  // Formattazione orario con etichette condizionali (Task 5)
   function formattaOrario(start, end) {
     if (!start) return '';
-    return end ? `${start} – ${end}` : start;
+    if (end) return `Inizio: ${start} - Fine: ${end}`;
+    return `Inizio: ${start}`;
   }
 
   const annoVis = dataVisualizzata.getFullYear();
@@ -59,6 +61,16 @@ function CalendarioAdmin() {
     caricaAttivita();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [annoVis, meseVis]);
+
+  // Task 4: blocca lo scroll del body quando la modale giorno è aperta
+  useEffect(() => {
+    if (giornoSelezionato || modale) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => { document.body.style.overflow = ''; };
+  }, [giornoSelezionato, modale]);
 
   async function caricaAttivita() {
     try {
@@ -305,7 +317,7 @@ function CalendarioAdmin() {
       {/* ─── Pannello dettaglio / form ────────────────── */}
       {giornoSelezionato && (
         <div className="calendario-modale-overlay">
-        <div className="calendario-modale animazione-entrata" style={{ maxWidth: '500px', maxHeight: '90vh', overflowY: 'auto' }}>
+          <div className="calendario-modale animazione-entrata">
 
             {/* Header pannello */}
             <div className="dettaglio-header">
@@ -385,6 +397,7 @@ function CalendarioAdmin() {
                     placeholder="Dettagli aggiuntivi..."
                     value={formDescrizione}
                     onChange={e => setFormDescrizione(e.target.value)}
+                    style={{ resize: 'none' }}
                   />
                 </div>
 
