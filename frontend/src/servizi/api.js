@@ -120,11 +120,38 @@ export async function leggiAttivitaMese(anno, mese) {
 }
 
 /**
- * Salva o aggiorna un'attività per una data specifica.
+ * Salva un'attività per una data specifica.
+ * Supporta ricorrenze settimanali e orari.
  * Solo per admin.
+ *
+ * @param {string} dataEsatta  - Formato YYYY-MM-DD
+ * @param {string} titolo
+ * @param {string} descrizione
+ * @param {string} startTime   - Formato HH:mm (obbligatorio)
+ * @param {string} endTime     - Formato HH:mm (opzionale)
+ * @param {boolean} isRecurring - Se true, ripete ogni settimana fino a fine mese
  */
-export async function salvaAttivitaCalendario(dataEsatta, titolo, descrizione) {
-  const risposta = await chiamataHTTP.post('/calendario', { dataEsatta, titolo, descrizione });
+export async function salvaAttivitaCalendario(dataEsatta, titolo, descrizione, startTime, endTime, isRecurring) {
+  const risposta = await chiamataHTTP.post('/calendario', {
+    dataEsatta, titolo, descrizione, startTime, endTime, isRecurring
+  });
+  return risposta.data;
+}
+
+/**
+ * Modifica titolo, descrizione e orari di un'attività esistente.
+ * Solo per admin.
+ *
+ * @param {number} id
+ * @param {string} titolo
+ * @param {string} descrizione
+ * @param {string} startTime   - Formato HH:mm
+ * @param {string} endTime     - Formato HH:mm (opzionale)
+ */
+export async function modificaAttivitaCalendario(id, titolo, descrizione, startTime, endTime) {
+  const risposta = await chiamataHTTP.put(`/calendario/${id}`, {
+    titolo, descrizione, startTime, endTime
+  });
   return risposta.data;
 }
 

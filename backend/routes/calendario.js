@@ -23,23 +23,21 @@ routerCalendario.get('/mese', async (req, res) => {
     const anno = req.query.anno ? parseInt(req.query.anno) : dataOdierna.getFullYear();
     const mese = req.query.mese ? parseInt(req.query.mese) : dataOdierna.getMonth() + 1;
 
-    // Assicuriamoci che i parametri siano validi
     if (isNaN(anno) || isNaN(mese) || mese < 1 || mese > 12) {
       return res.status(400).json({ messaggio: 'Anno o mese non validi.' });
     }
 
-    // Costruiamo le date di inizio e fine mese per la query
-    // es per Marzo: dal 2024-03-01 al 2024-03-31
     const dataInizio = `${anno}-${String(mese).padStart(2, '0')}-01`;
-    // Per avere l'ultimo giorno del mese usiamo un trucchetto: il giorno 0 del mese SUCCESSIVO
     const dataFine = new Date(anno, mese, 0).toISOString().split('T')[0];
 
-    // Selezioniamo tutte le attività in quel range
     const risultato = await database.query(
       `SELECT
+         id,
          TO_CHAR(data_esatta, 'YYYY-MM-DD') AS data_esatta,
          titolo,
-         descrizione
+         descrizione,
+         TO_CHAR(start_time, 'HH24:MI') AS start_time,
+         TO_CHAR(end_time, 'HH24:MI')   AS end_time
        FROM calendario_attivita
        WHERE data_esatta BETWEEN $1::DATE AND $2::DATE
        ORDER BY data_esatta ASC`,
@@ -57,36 +55,142 @@ routerCalendario.get('/mese', async (req, res) => {
 // ─────────────────────────────────────────────────────
 // POST /api/calendario — Rotta protetta (solo admin)
 // ─────────────────────────────────────────────────────
-// Aggiunge o aggiorna un'attività in una data specifica.
-// Siccome la 'data_esatta' è UNIQUE nel database, se
-// esiste già la sovrascrive (UPSERT).
+// Aggiunge un'attività in una data specifica.
+// Se isRecurring = true, genera un inserimento per ogni
+// istanza dello stesso giorno della settimana fino alla
+// fine del mese corrente, escludendo i giorni passati.
 routerCalendario.post('/', verificaToken, async (req, res) => {
-  const { dataEsatta, titolo, descrizione } = req.body;
+  const { dataEsatta, titolo, descrizione, startTime, endTime, isRecurring } = req.body;
 
   if (!dataEsatta || !titolo) {
     return res.status(400).json({ messaggio: 'Data e titolo sono obbligatori.' });
   }
+  if (!startTime) {
+    return res.status(400).json({ messaggio: 'L\'ora di inizio è obbligatoria.' });
+  }
 
   try {
-    const risultato = await database.query(
-      `INSERT INTO calendario_attivita (data_esatta, titolo, descrizione)
-       VALUES ($1::DATE, $2, $3)
-       ON CONFLICT (data_esatta)
-       DO UPDATE SET
-         titolo = EXCLUDED.titolo,
-         descrizione = EXCLUDED.descrizione,
-         creato_il = NOW()
-       RETURNING TO_CHAR(data_esatta, 'YYYY-MM-DD') AS data_esatta, titolo, descrizione`,
-      [dataEsatta, titolo, descrizione]
-    );
+    // Calcola tutte le date da inserire
+    const dateTarget = [];
+    const dataBase = new Date(dataEsatta + 'T00:00:00'); // evita shift timezone
+
+    if (isRecurring) {
+      // Genera tutte le occorrenze dello stesso giorno della settimana
+      // dalla data selezionata fino alla fine del mese
+      const annoBase = dataBase.getFullYear();
+      const meseBase = dataBase.getMonth(); // 0-indexed
+      const giornoSettimana = dataBase.getDay(); // 0=Dom, 1=Lun, ...
+
+      // Oggi per non inserire giorni passati
+      const oggiObj = new Date();
+      oggiObj.setHours(0, 0, 0, 0);
+
+      // Fine del mese
+      const fineDelMese = new Date(annoBase, meseBase + 1, 0);
+
+      let corrente = new Date(dataBase);
+      while (corrente <= fineDelMese) {
+        if (corrente >= oggiObj) {
+          const isoStr = `${corrente.getFullYear()}-${String(corrente.getMonth() + 1).padStart(2, '0')}-${String(corrente.getDate()).padStart(2, '0')}`;
+          dateTarget.push(isoStr);
+        }
+        // Avanza di 7 giorni (prossima settimana, stesso giorno)
+        corrente = new Date(corrente.getTime() + 7 * 24 * 60 * 60 * 1000);
+      }
+    } else {
+      // Singola data
+      dateTarget.push(dataEsatta);
+    }
+
+    if (dateTarget.length === 0) {
+      return res.status(400).json({ messaggio: 'Nessuna data valida da inserire (tutte nel passato).' });
+    }
+
+    // Inserisci tutte le date con UPSERT
+    const righeInserite = [];
+    for (const dataTarget of dateTarget) {
+      const ris = await database.query(
+        `INSERT INTO calendario_attivita (data_esatta, titolo, descrizione, start_time, end_time)
+         VALUES ($1::DATE, $2, $3, $4::TIME, $5::TIME)
+         ON CONFLICT (data_esatta)
+         DO UPDATE SET
+           titolo      = EXCLUDED.titolo,
+           descrizione = EXCLUDED.descrizione,
+           start_time  = EXCLUDED.start_time,
+           end_time    = EXCLUDED.end_time,
+           creato_il   = NOW()
+         RETURNING
+           id,
+           TO_CHAR(data_esatta, 'YYYY-MM-DD') AS data_esatta,
+           titolo,
+           descrizione,
+           TO_CHAR(start_time, 'HH24:MI') AS start_time,
+           TO_CHAR(end_time, 'HH24:MI')   AS end_time`,
+        [dataTarget, titolo, descrizione || null, startTime, endTime || null]
+      );
+      righeInserite.push(ris.rows[0]);
+    }
 
     res.status(200).json({
-      messaggio: 'Attività salvata con successo!',
-      attivita: risultato.rows[0]
+      messaggio: `${righeInserite.length} attività salvate con successo!`,
+      attivita: righeInserite
     });
 
   } catch (errore) {
     console.error("Errore nel salvare l'attività:", errore);
+    res.status(500).json({ messaggio: 'Errore interno del server.' });
+  }
+});
+
+// ─────────────────────────────────────────────────────
+// PUT /api/calendario/:id — Rotta protetta (solo admin)
+// ─────────────────────────────────────────────────────
+// Modifica titolo, descrizione, ora inizio e ora fine
+// di un'attività esistente identificata per ID.
+routerCalendario.put('/:id', verificaToken, async (req, res) => {
+  const idAttivita = parseInt(req.params.id);
+  const { titolo, descrizione, startTime, endTime } = req.body;
+
+  if (isNaN(idAttivita)) {
+    return res.status(400).json({ messaggio: 'ID non valido.' });
+  }
+  if (!titolo || !titolo.trim()) {
+    return res.status(400).json({ messaggio: 'Il titolo è obbligatorio.' });
+  }
+  if (!startTime) {
+    return res.status(400).json({ messaggio: 'L\'ora di inizio è obbligatoria.' });
+  }
+
+  try {
+    const risultato = await database.query(
+      `UPDATE calendario_attivita
+       SET
+         titolo      = $1,
+         descrizione = $2,
+         start_time  = $3::TIME,
+         end_time    = $4::TIME
+       WHERE id = $5
+       RETURNING
+         id,
+         TO_CHAR(data_esatta, 'YYYY-MM-DD') AS data_esatta,
+         titolo,
+         descrizione,
+         TO_CHAR(start_time, 'HH24:MI') AS start_time,
+         TO_CHAR(end_time, 'HH24:MI')   AS end_time`,
+      [titolo.trim(), descrizione || null, startTime, endTime || null, idAttivita]
+    );
+
+    if (risultato.rowCount === 0) {
+      return res.status(404).json({ messaggio: 'Attività non trovata.' });
+    }
+
+    res.status(200).json({
+      messaggio: 'Attività aggiornata con successo!',
+      attivita: risultato.rows[0]
+    });
+
+  } catch (errore) {
+    console.error("Errore nell'aggiornare l'attività:", errore);
     res.status(500).json({ messaggio: 'Errore interno del server.' });
   }
 });
