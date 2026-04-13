@@ -5,7 +5,7 @@ import {
   modificaAttivitaCalendario,
   eliminaAttivitaCalendario
 } from '../servizi/api';
-import WheelTimePicker from './WheelPicker';
+import { DualWheelPicker } from './WheelPicker';
 import './Calendario.css';
 
 const GIORNI_SETTIMANA = ['Lun', 'Mar', 'Mer', 'Gio', 'Ven', 'Sab', 'Dom'];
@@ -30,10 +30,9 @@ function CalendarioAdmin() {
   const [giornoSelezionato, setGiornoSelezionato] = useState(null);
   const [formTitolo, setFormTitolo]               = useState('');
   const [formDescrizione, setFormDescrizione]     = useState('');
-  const [formStartTime, setFormStartTime]         = useState('09:00');
-  const [formEndTime, setFormEndTime]             = useState('');
-  const [formIsRecurring, setFormIsRecurring]    = useState(false);
-  const [mostraEndTime, setMostraEndTime]         = useState(false);
+  const [formStartTime, setFormStartTime]      = useState('09:00');
+  const [formEndTime, setFormEndTime]          = useState('');
+  const [formIsRecurring, setFormIsRecurring]  = useState(false);
 
   // Stato modifica
   const [modalitaModifica, setModalitaModifica] = useState(false);
@@ -90,13 +89,11 @@ function CalendarioAdmin() {
       setFormDescrizione(attivitaEsistente.descrizione || '');
       setFormStartTime(attivitaEsistente.start_time || '09:00');
       setFormEndTime(attivitaEsistente.end_time || '');
-      setMostraEndTime(!!(attivitaEsistente.end_time));
     } else {
       setFormTitolo('');
       setFormDescrizione('');
       setFormStartTime('09:00');
       setFormEndTime('');
-      setMostraEndTime(false);
     }
     setFormIsRecurring(false);
   }
@@ -108,7 +105,6 @@ function CalendarioAdmin() {
     setFormStartTime('09:00');
     setFormEndTime('');
     setFormIsRecurring(false);
-    setMostraEndTime(false);
     setModalitaModifica(false);
     setIdAttivitaInModifica(null);
   }
@@ -121,7 +117,6 @@ function CalendarioAdmin() {
     setFormDescrizione(attivita.descrizione || '');
     setFormStartTime(attivita.start_time || '09:00');
     setFormEndTime(attivita.end_time || '');
-    setMostraEndTime(!!(attivita.end_time));
   }
 
   // ─── Salva (inserimento) ─────────────────────────────
@@ -146,7 +141,7 @@ function CalendarioAdmin() {
         formTitolo,
         formDescrizione,
         formStartTime,
-        mostraEndTime ? formEndTime : '',
+        formEndTime,
         formIsRecurring
       );
       await caricaAttivita();
@@ -184,7 +179,7 @@ function CalendarioAdmin() {
         formTitolo,
         formDescrizione,
         formStartTime,
-        mostraEndTime ? formEndTime : ''
+        formEndTime
       );
       await caricaAttivita();
 
@@ -394,40 +389,15 @@ function CalendarioAdmin() {
                   />
                 </div>
 
-                {/* Selettori orario */}
+                {/* Selettori orario affiancati */}
                 <div className="gruppo-campo">
-                  <label className="etichetta-campo">Ora Inizio *</label>
-                  <WheelTimePicker
-                    value={formStartTime}
-                    onChange={setFormStartTime}
+                  <label className="etichetta-campo">Orario (Fine facoltativa — scorri per impostare)</label>
+                  <DualWheelPicker
+                    startTime={formStartTime}
+                    onStartChange={setFormStartTime}
+                    endTime={formEndTime}
+                    onEndChange={setFormEndTime}
                   />
-                </div>
-
-                <div className="gruppo-campo">
-                  <div className="etichetta-campo-riga">
-                    <label className="etichetta-campo">Ora Fine</label>
-                    <label className="switch-toggle" style={{ marginLeft: 'auto' }}>
-                      <input
-                        type="checkbox"
-                        checked={mostraEndTime}
-                        onChange={e => {
-                          setMostraEndTime(e.target.checked);
-                          if (!e.target.checked) setFormEndTime('');
-                          else if (!formEndTime) setFormEndTime('10:00');
-                        }}
-                      />
-                      <span className="toggle-slider"></span>
-                      <span style={{ marginLeft: 8, fontSize: 13, color: 'rgba(255,255,255,0.6)' }}>
-                        {mostraEndTime ? 'Imposta' : 'Facoltativa'}
-                      </span>
-                    </label>
-                  </div>
-                  {mostraEndTime && (
-                    <WheelTimePicker
-                      value={formEndTime || '10:00'}
-                      onChange={setFormEndTime}
-                    />
-                  )}
                 </div>
 
                 {/* Checkbox ricorrenza (solo inserimento, non modifica) */}

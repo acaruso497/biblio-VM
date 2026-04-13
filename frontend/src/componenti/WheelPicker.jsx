@@ -1,163 +1,221 @@
 // =====================================================
 // WheelPicker.jsx — Selettore Orario a Rotella
 // =====================================================
-// Componente per selezionare l'ora (HH:mm) tramite
-// interfaccia scroll/touch, senza digitazione testuale.
+// Versione 2: compatta (3 voci visibili), tema chiaro,
+// doppio picker affiancato (Inizio | Fine), ora fine
+// con stato neutro "--:--" finché l'utente non scorre.
 // =====================================================
 
 import React, { useRef, useEffect, useCallback } from 'react';
 import './WheelPicker.css';
 
-const ITEM_HEIGHT = 44; // px per ogni voce della rotella
-const VISIBLE_ITEMS = 5; // quante voci visibili (must be odd)
+const ITEM_HEIGHT  = 36;  // px per ogni voce
+const VISIBLE_ITEMS = 3;  // voci visibili (sempre dispari)
 
-function WheelColumn({ items, value, onChange }) {
-  const containerRef = useRef(null);
-  const isDragging = useRef(false);
-  const startY = useRef(0);
-  const startScrollTop = useRef(0);
+// ─────────────────────────────────────────────────────
+// WheelColumn — singola colonna scorrevole
+// ─────────────────────────────────────────────────────
+function WheelColumn({ items, value, onChange, neutral = false }) {
+  const containerRef  = useRef(null);
+  const isDragging    = useRef(false);
+  const startY        = useRef(0);
+  const startScroll   = useRef(0);
+  const scrollTimer   = useRef(null);
 
-  const selectedIndex = items.indexOf(value);
+  const padding = Math.floor(VISIBLE_ITEMS / 2); // = 1 per VISIBLE_ITEMS=3
 
-  // Scroll alla voce selezionata senza animazione
   const scrollToIndex = useCallback((index, behavior = 'smooth') => {
-    if (containerRef.current) {
-      containerRef.current.scrollTo({
-        top: index * ITEM_HEIGHT,
-        behavior,
-      });
-    }
+    if (!containerRef.current) return;
+    containerRef.current.scrollTo({ top: index * ITEM_HEIGHT, behavior });
   }, []);
 
-  // Inizializza posizione
+  // Posizione iniziale
   useEffect(() => {
+    if (neutral) return; // se neutro non scrolliamo
     const idx = items.indexOf(value);
     if (idx >= 0) scrollToIndex(idx, 'instant');
   }, []); // eslint-disable-line
 
-  // Aggiorna quando il valore cambia esternamente
+  // Aggiorna quando value cambia dall'esterno
   useEffect(() => {
+    if (neutral) return;
     const idx = items.indexOf(value);
     if (idx >= 0) scrollToIndex(idx, 'smooth');
-  }, [value, scrollToIndex, items]);
+  }, [value, neutral, scrollToIndex, items]);
 
-  // Calcola l'indice più vicino al centro dopo uno scroll
-  function handleScrollEnd() {
+  function snapToNearest() {
     if (!containerRef.current) return;
-    const scrollTop = containerRef.current.scrollTop;
-    const newIndex = Math.round(scrollTop / ITEM_HEIGHT);
-    const clampedIndex = Math.max(0, Math.min(newIndex, items.length - 1));
-    onChange(items[clampedIndex]);
-    scrollToIndex(clampedIndex, 'smooth');
+    const scrollTop  = containerRef.current.scrollTop;
+    const newIndex   = Math.round(scrollTop / ITEM_HEIGHT);
+    const clamped    = Math.max(0, Math.min(newIndex, items.length - 1));
+    onChange(items[clamped]);
+    scrollToIndex(clamped, 'smooth');
   }
 
-  // Gestione touch/mouse drag
-  function onPointerDown(e) {
-    isDragging.current = true;
-    startY.current = e.type === 'touchstart' ? e.touches[0].clientY : e.clientY;
-    startScrollTop.current = containerRef.current.scrollTop;
-  }
-
-  function onPointerMove(e) {
-    if (!isDragging.current) return;
-    const clientY = e.type === 'touchmove' ? e.touches[0].clientY : e.clientY;
-    const delta = startY.current - clientY;
-    containerRef.current.scrollTop = startScrollTop.current + delta;
-  }
-
-  function onPointerUp() {
-    isDragging.current = false;
-    handleScrollEnd();
-  }
-
-  // Gestione scroll nativo
-  let scrollTimer = useRef(null);
+  // ── Scroll nativo ──
   function onScroll() {
     clearTimeout(scrollTimer.current);
-    scrollTimer.current = setTimeout(handleScrollEnd, 120);
+    scrollTimer.current = setTimeout(snapToNearest, 100);
   }
 
-  const paddingItems = Math.floor(VISIBLE_ITEMS / 2);
+  // ── Drag mouse ──
+  function onMouseDown(e) {
+    isDragging.current = true;
+    startY.current     = e.clientY;
+    startScroll.current = containerRef.current.scrollTop;
+    e.preventDefault();
+  }
+
+  function onMouseMove(e) {
+    if (!isDragging.current) return;
+    containerRef.current.scrollTop = startScroll.current + (startY.current - e.clientY);
+  }
+
+  function onMouseUp() {
+    if (!isDragging.current) return;
+    isDragging.current = false;
+    snapToNearest();
+  }
+
+  // ── Touch ──
+  function onTouchStart(e) {
+    startY.current     = e.touches[0].clientY;
+    startScroll.current = containerRef.current.scrollTop;
+  }
+
+  function onTouchMove(e) {
+    containerRef.current.scrollTop = startScroll.current + (startY.current - e.touches[0].clientY);
+  }
+
+  function onTouchEnd() { snapToNearest(); }
 
   return (
-    <div className="wheel-column-wrapper">
-      {/* Indicatore di selezione (linee centrali) */}
-      <div className="wheel-selection-indicator" />
+    <div className="wc-wrapper">
+      {/* Indicatore selezione centrale */}
+      <div className="wc-indicator" />
 
       <div
         ref={containerRef}
-        className="wheel-column"
+        className="wc-scroll"
         style={{ height: `${ITEM_HEIGHT * VISIBLE_ITEMS}px` }}
         onScroll={onScroll}
-        onMouseDown={onPointerDown}
-        onMouseMove={onPointerMove}
-        onMouseUp={onPointerUp}
-        onMouseLeave={onPointerUp}
-        onTouchStart={onPointerDown}
-        onTouchMove={onPointerMove}
-        onTouchEnd={onPointerUp}
+        onMouseDown={onMouseDown}
+        onMouseMove={onMouseMove}
+        onMouseUp={onMouseUp}
+        onMouseLeave={onMouseUp}
+        onTouchStart={onTouchStart}
+        onTouchMove={onTouchMove}
+        onTouchEnd={onTouchEnd}
       >
-        {/* Padding superiore */}
-        {Array.from({ length: paddingItems }).map((_, i) => (
-          <div key={`top-${i}`} className="wheel-item wheel-item-padding" />
+        {/* Padding top */}
+        {Array.from({ length: padding }).map((_, i) => (
+          <div key={`t${i}`} className="wc-item wc-pad" />
         ))}
 
-        {/* Voci reali */}
         {items.map((item) => (
           <div
             key={item}
-            className={`wheel-item ${item === value ? 'wheel-item-selected' : ''}`}
-            onClick={() => {
-              onChange(item);
-              scrollToIndex(items.indexOf(item));
-            }}
+            className={`wc-item ${!neutral && item === value ? 'wc-selected' : ''}`}
+            onClick={() => { onChange(item); scrollToIndex(items.indexOf(item)); }}
           >
             {item}
           </div>
         ))}
 
-        {/* Padding inferiore */}
-        {Array.from({ length: paddingItems }).map((_, i) => (
-          <div key={`bot-${i}`} className="wheel-item wheel-item-padding" />
+        {/* Padding bottom */}
+        {Array.from({ length: padding }).map((_, i) => (
+          <div key={`b${i}`} className="wc-item wc-pad" />
         ))}
+      </div>
+
+      {/* Maschere sfumatura chiare */}
+      <div className="wc-fade wc-fade-top" />
+      <div className="wc-fade wc-fade-bottom" />
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────────────
+// WheelTimePicker — singolo orologio HH:mm
+//   value   : "HH:mm" | "" (stringa vuota = neutro)
+//   onChange: (val: string | "") => void
+//   label   : string
+//   neutral : bool — se true, mostra "--:--" inizialmente
+// ─────────────────────────────────────────────────────
+export function WheelTimePicker({ value, onChange, label, neutral = false }) {
+  const ore    = Array.from({ length: 24 }, (_, i) => String(i).padStart(2, '0'));
+  const minuti = ['00', '05', '10', '15', '20', '25', '30', '35', '40', '45', '50', '55'];
+
+  const isNeutral = neutral && !value;
+
+  // Estrae ore/minuti dal value, con fallback sicuro
+  const hh = value ? value.split(':')[0] : '09';
+  const mmRaw = value ? value.split(':')[1] : '00';
+  const mm = minuti.includes(mmRaw) ? mmRaw : '00';
+
+  function onOraChange(nuovaOra) {
+    onChange(`${nuovaOra}:${mm}`);
+  }
+
+  function onMinutoChange(nuovoMinuto) {
+    onChange(`${hh}:${nuovoMinuto}`);
+  }
+
+  // Quando l'utente interagisce con un picker neutro, attiva con un default
+  function onNeutralInteract(tipo) {
+    return (val) => {
+      if (tipo === 'ora')    onChange(`${val}:00`);
+      if (tipo === 'minuto') onChange(`${hh}:${val}`);
+    };
+  }
+
+  return (
+    <div className="wtp-root">
+      {label && <span className="wtp-label">{label}</span>}
+      <div className={`wtp-columns ${isNeutral ? 'wtp-neutral' : ''}`}>
+        {isNeutral ? (
+          // Mostra "--:--" e aspetta interazione
+          <>
+            <WheelColumn items={ore}    value="09" onChange={onNeutralInteract('ora')}    neutral />
+            <div className="wc-sep">:</div>
+            <WheelColumn items={minuti} value="00" onChange={onNeutralInteract('minuto')} neutral />
+          </>
+        ) : (
+          <>
+            <WheelColumn items={ore}    value={hh} onChange={onOraChange}    />
+            <div className="wc-sep">:</div>
+            <WheelColumn items={minuti} value={mm} onChange={onMinutoChange} />
+          </>
+        )}
       </div>
     </div>
   );
 }
 
 // ─────────────────────────────────────────────────────
-// Componente principale WheelTimePicker
-// Props:
-//   value    : string "HH:mm" o ""
-//   onChange : (newValue: string) => void
-//   label    : string (etichetta)
+// DualWheelPicker — Inizio e Fine affiancati
+//   startTime  : "HH:mm"       onChange per start
+//   endTime    : "HH:mm" | ""  onChange per end (neutro se "")
 // ─────────────────────────────────────────────────────
-function WheelTimePicker({ value, onChange, label }) {
-  const ore = Array.from({ length: 24 }, (_, i) => String(i).padStart(2, '0'));
-  const minuti = ['00', '05', '10', '15', '20', '25', '30', '35', '40', '45', '50', '55'];
-
-  const [hh, mm] = value ? value.split(':') : ['09', '00'];
-
-  // Arrotonda i minuti al multiplo di 5 più vicino
-  const mmArrotondato = minuti.includes(mm) ? mm : minuti.reduce((prev, curr) =>
-    Math.abs(parseInt(curr) - parseInt(mm)) < Math.abs(parseInt(prev) - parseInt(mm)) ? curr : prev
-  );
-
-  function handleOraChange(nuovaOra) {
-    onChange(`${nuovaOra}:${mmArrotondato}`);
-  }
-
-  function handleMinutoChange(nuovoMinuto) {
-    onChange(`${hh}:${nuovoMinuto}`);
-  }
-
+export function DualWheelPicker({ startTime, onStartChange, endTime, onEndChange }) {
   return (
-    <div className="wheel-time-picker">
-      {label && <div className="wheel-time-label">{label}</div>}
-      <div className="wheel-time-columns">
-        <WheelColumn items={ore} value={hh} onChange={handleOraChange} />
-        <div className="wheel-separator">:</div>
-        <WheelColumn items={minuti} value={mmArrotondato} onChange={handleMinutoChange} />
+    <div className="dwp-root">
+      <div className="dwp-slot">
+        <WheelTimePicker
+          value={startTime}
+          onChange={onStartChange}
+          label="Inizio"
+          neutral={false}
+        />
+      </div>
+      <div className="dwp-divider" />
+      <div className="dwp-slot">
+        <WheelTimePicker
+          value={endTime}
+          onChange={onEndChange}
+          label="Fine"
+          neutral
+        />
       </div>
     </div>
   );

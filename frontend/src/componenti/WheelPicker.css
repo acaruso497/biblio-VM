@@ -1,142 +1,199 @@
 /* =====================================================
-   WheelPicker.css — Stile per il selettore a rotella
+   WheelPicker.css v2 — Tema chiaro, compatto
    ===================================================== */
 
-.wheel-time-picker {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 8px;
-}
+/* ─── WheelColumn interna ─── */
 
-.wheel-time-label {
-  font-family: var(--font-corpo, 'Inter', sans-serif);
-  font-size: 13px;
-  font-weight: 600;
-  color: rgba(255, 255, 255, 0.6);
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-}
-
-.wheel-time-columns {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  background: rgba(0, 0, 0, 0.3);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 12px;
-  padding: 8px 12px;
+.wc-wrapper {
   position: relative;
+  width: 44px;
+  flex-shrink: 0;
 }
 
-.wheel-separator {
-  font-size: 22px;
-  font-weight: 700;
-  color: rgba(255, 255, 255, 0.8);
-  line-height: 1;
-  padding: 0 2px;
-  margin-bottom: 2px;
-}
-
-/* ─── Colonna rotella ─── */
-.wheel-column-wrapper {
-  position: relative;
-  width: 52px;
-}
-
-.wheel-selection-indicator {
+.wc-indicator {
   position: absolute;
   left: 0;
   right: 0;
   top: 50%;
   transform: translateY(-50%);
-  height: 44px;
-  background: rgba(155, 41, 21, 0.15);
-  border-top: 1px solid rgba(155, 41, 21, 0.5);
-  border-bottom: 1px solid rgba(155, 41, 21, 0.5);
-  border-radius: 6px;
+  height: 36px;
+  background: rgba(155, 41, 21, 0.08);
+  border-top: 1.5px solid rgba(155, 41, 21, 0.4);
+  border-bottom: 1.5px solid rgba(155, 41, 21, 0.4);
+  border-radius: 5px;
   pointer-events: none;
   z-index: 2;
 }
 
-.wheel-column {
+.wc-scroll {
   overflow: hidden;
   scroll-snap-type: y mandatory;
-  -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
   -ms-overflow-style: none;
   cursor: grab;
-  position: relative;
   user-select: none;
   -webkit-user-select: none;
+  position: relative;
 }
 
-.wheel-column::-webkit-scrollbar {
-  display: none;
-}
+.wc-scroll::-webkit-scrollbar { display: none; }
+.wc-scroll:active { cursor: grabbing; }
 
-.wheel-column:active {
-  cursor: grabbing;
-}
-
-.wheel-item {
-  height: 44px;
+.wc-item {
+  height: 36px;
   display: flex;
   align-items: center;
   justify-content: center;
   font-family: var(--font-titoli, 'Georgia', serif);
-  font-size: 20px;
+  font-size: 17px;
   font-weight: 700;
-  color: rgba(255, 255, 255, 0.35);
+  color: rgba(0, 0, 0, 0.22);
   scroll-snap-align: center;
-  transition: color 0.15s ease, transform 0.15s ease;
   cursor: pointer;
-  border-radius: 6px;
+  transition: color 0.12s ease;
+  border-radius: 4px;
 }
 
-.wheel-item-padding {
+.wc-pad {
   pointer-events: none;
   cursor: default;
 }
 
-.wheel-item-selected {
-  color: #fff;
-  font-size: 22px;
-  transform: scale(1.05);
+.wc-selected {
+  color: #1a1a1a;
+  font-size: 18px;
 }
 
-.wheel-item:not(.wheel-item-padding):not(.wheel-item-selected):hover {
-  color: rgba(255, 255, 255, 0.65);
+.wc-item:not(.wc-pad):not(.wc-selected):hover {
+  color: rgba(0, 0, 0, 0.5);
 }
 
-/* Effetti sfumatura sui bordi per dare senso di profondità */
-.wheel-column-wrapper::before,
-.wheel-column-wrapper::after {
-  content: '';
+/* Maschere sfumatura chiare */
+.wc-fade {
   position: absolute;
   left: 0;
   right: 0;
-  height: 35%;
+  height: 32%;
   pointer-events: none;
   z-index: 3;
 }
 
-.wheel-column-wrapper::before {
+.wc-fade-top {
   top: 0;
-  background: linear-gradient(
-    to bottom,
-    rgba(10, 10, 20, 0.85),
-    transparent
-  );
-  border-radius: 12px 12px 0 0;
+  background: linear-gradient(to bottom, rgba(255,255,255,0.9), transparent);
 }
 
-.wheel-column-wrapper::after {
+.wc-fade-bottom {
   bottom: 0;
-  background: linear-gradient(
-    to top,
-    rgba(10, 10, 20, 0.85),
-    transparent
-  );
-  border-radius: 0 0 12px 12px;
+  background: linear-gradient(to top, rgba(255,255,255,0.9), transparent);
+}
+
+/* ─── Separatore ":" ─── */
+.wc-sep {
+  font-family: var(--font-titoli, 'Georgia', serif);
+  font-size: 18px;
+  font-weight: 800;
+  color: #555;
+  line-height: 1;
+  padding: 0 2px;
+  align-self: center;
+  /* Compenso visivo per non sembrare fuori centro */
+  margin-top: -2px;
+}
+
+/* ─── WheelTimePicker (singolo) ─── */
+.wtp-root {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.wtp-label {
+  font-family: var(--font-corpo, 'Inter', sans-serif);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: #888;
+}
+
+.wtp-columns {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  background: #fff;
+  border: 1.5px solid #e0e0e0;
+  border-radius: 10px;
+  padding: 4px 8px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+  min-width: 104px;
+  justify-content: center;
+}
+
+/* Stato neutro: bordo tratteggiato, sfondo leggermente grigio */
+.wtp-neutral .wtp-columns,
+.wtp-columns.wtp-neutral-inner {
+  background: #f7f7f7;
+  border-style: dashed;
+  border-color: #ccc;
+}
+
+/* Testo "--" per lo stato neutro (iniettato via ::after sul wrapper) */
+.wtp-neutral::after {
+  content: '--:--';
+  position: absolute;
+  font-family: var(--font-titoli, 'Georgia', serif);
+  font-size: 18px;
+  font-weight: 700;
+  color: #bbb;
+  pointer-events: none;
+}
+
+/* Sovrascrive quando neutro: nasconde il testo reale */
+.wtp-neutral .wc-item {
+  color: transparent !important;
+}
+
+.wtp-neutral .wc-indicator {
+  opacity: 0;
+}
+
+/* ─── DualWheelPicker — affiancato ─── */
+.dwp-root {
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+  width: 100%;
+  background: #f8f8f8;
+  border: 1.5px solid #e0e0e0;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.dwp-slot {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 0;
+}
+
+/* Sostituisce il box bianco interno del singolo picker quando in DualPicker */
+.dwp-slot .wtp-columns {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  padding: 4px 4px;
+  min-width: unset;
+}
+
+.dwp-slot .wtp-root {
+  gap: 4px;
+}
+
+.dwp-divider {
+  width: 1px;
+  background: #e0e0e0;
+  margin: 8px 0;
 }
