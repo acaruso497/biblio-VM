@@ -69,14 +69,26 @@
 }
 
 /* Impostazioni body — tema chiaro pulito */
+html {
+  background-color: var(--nero-carbone);
+  overflow-x: hidden;
+  width: 100vw;
+  margin: 0;
+  padding: 0;
+}
+
 body {
   font-family: var(--font-corpo);
-  background-color: var(--nero-carbone);
+  background: transparent;
   color: var(--bianco-sporco);
   line-height: 1.6;
   min-height: 100vh;
+  margin: 0;
+  padding: 0;
   -webkit-font-smoothing: antialiased;
   position: relative;
+  overflow-x: hidden;
+  width: 100vw;
 }
 
 /* Watermark: Logo Centrale su ogni pagina (Sfondo) */
