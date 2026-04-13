@@ -305,12 +305,11 @@ function CalendarioAdmin() {
       {/* ─── Pannello dettaglio / form ────────────────── */}
       {giornoSelezionato && (
         <div className="calendario-modale-overlay">
-          <div className="calendario-modale animazione-entrata" style={{ maxWidth: '520px' }}>
+        <div className="calendario-modale animazione-entrata" style={{ maxWidth: '500px', maxHeight: '90vh', overflowY: 'auto' }}>
 
             {/* Header pannello */}
             <div className="dettaglio-header">
               <h3 className="modale-titolo" style={{ margin: 0 }}>
-                {eVisualizzazione ? '📅 ' : '✏️ '}
                 {formattaDataItaliana(giornoSelezionato)}
               </h3>
               <button className="btn-chiudi" onClick={chiudiForm} style={{ fontSize: '24px', color: '#000' }}>✕</button>
@@ -354,7 +353,7 @@ function CalendarioAdmin() {
                       className="btn-modifica-attivita"
                       onClick={() => attivaModifica(attivitaSelezionata)}
                     >
-                      ✏️ Modifica
+                      Modifica
                     </button>
                   )}
                 </div>

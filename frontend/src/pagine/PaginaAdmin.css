@@ -197,11 +197,13 @@
 .calendario-modale {
   background: white !important;
   color: var(--nero-carbone) !important;
-  padding: 40px;
+  padding: 32px;
   border-radius: 12px;
   box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.4), 0 10px 10px -5px rgba(0, 0, 0, 0.4);
   width: 100%;
   max-width: 500px;
+  max-height: 90vh;        /* ← impedisce il taglio verticale */
+  overflow-y: auto;        /* ← scroll interno se il contenuto supera 90vh */
   position: relative;
   animation: modal-pop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 }

@@ -1,9 +1,8 @@
 /* =====================================================
-   WheelPicker.css v2 — Tema chiaro, compatto
+   WheelPicker.css v3 — Tema chiaro, stabile, compatto
    ===================================================== */
 
-/* ─── WheelColumn interna ─── */
-
+/* ─── Wrapper e indicatore di selezione ─── */
 .wc-wrapper {
   position: relative;
   width: 44px;
@@ -17,14 +16,15 @@
   top: 50%;
   transform: translateY(-50%);
   height: 36px;
-  background: rgba(155, 41, 21, 0.08);
-  border-top: 1.5px solid rgba(155, 41, 21, 0.4);
-  border-bottom: 1.5px solid rgba(155, 41, 21, 0.4);
+  background: rgba(155, 41, 21, 0.07);
+  border-top: 1.5px solid rgba(155, 41, 21, 0.35);
+  border-bottom: 1.5px solid rgba(155, 41, 21, 0.35);
   border-radius: 5px;
   pointer-events: none;
   z-index: 2;
 }
 
+/* ─── Scroll container ─── */
 .wc-scroll {
   overflow: hidden;
   scroll-snap-type: y mandatory;
@@ -34,24 +34,32 @@
   user-select: none;
   -webkit-user-select: none;
   position: relative;
+  /* Altezza = ITEM_HEIGHT * VISIBLE_ITEMS = 36 * 3 = 108px */
 }
 
 .wc-scroll::-webkit-scrollbar { display: none; }
 .wc-scroll:active { cursor: grabbing; }
 
+/* Stato dimmed: tutta la colonna sbiadisce (stato neutro ora fine) */
+.wc-scroll.wc-dimmed {
+  opacity: 0.28;
+}
+
+/* ─── Singola voce ─── */
 .wc-item {
   height: 36px;
   display: flex;
   align-items: center;
   justify-content: center;
   font-family: var(--font-titoli, 'Georgia', serif);
-  font-size: 17px;
+  font-size: 16px;
   font-weight: 700;
-  color: rgba(0, 0, 0, 0.22);
+  color: rgba(0, 0, 0, 0.2);
   scroll-snap-align: center;
   cursor: pointer;
-  transition: color 0.12s ease;
+  transition: color 0.1s ease;
   border-radius: 4px;
+  flex-shrink: 0;
 }
 
 .wc-pad {
@@ -65,108 +73,83 @@
 }
 
 .wc-item:not(.wc-pad):not(.wc-selected):hover {
-  color: rgba(0, 0, 0, 0.5);
+  color: rgba(0, 0, 0, 0.45);
 }
 
-/* Maschere sfumatura chiare */
+/* ─── Maschere sfumatura chiare (sopra/sotto) ─── */
 .wc-fade {
   position: absolute;
   left: 0;
   right: 0;
-  height: 32%;
+  height: 30%;
   pointer-events: none;
   z-index: 3;
 }
 
 .wc-fade-top {
   top: 0;
-  background: linear-gradient(to bottom, rgba(255,255,255,0.9), transparent);
+  background: linear-gradient(to bottom, rgba(255,255,255,0.92), transparent);
 }
 
 .wc-fade-bottom {
   bottom: 0;
-  background: linear-gradient(to top, rgba(255,255,255,0.9), transparent);
+  background: linear-gradient(to top, rgba(255,255,255,0.92), transparent);
 }
 
 /* ─── Separatore ":" ─── */
 .wc-sep {
   font-family: var(--font-titoli, 'Georgia', serif);
-  font-size: 18px;
+  font-size: 17px;
   font-weight: 800;
   color: #555;
   line-height: 1;
-  padding: 0 2px;
+  padding: 0 3px;
   align-self: center;
-  /* Compenso visivo per non sembrare fuori centro */
-  margin-top: -2px;
+  flex-shrink: 0;
 }
 
-/* ─── WheelTimePicker (singolo) ─── */
+/* ─── WheelTimePicker (singolo HH:mm) ─── */
 .wtp-root {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 6px;
+  gap: 5px;
 }
 
 .wtp-label {
   font-family: var(--font-corpo, 'Inter', sans-serif);
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.07em;
-  color: #888;
+  color: #999;
 }
 
 .wtp-columns {
   display: flex;
   align-items: center;
-  gap: 2px;
+  gap: 0;
   background: #fff;
-  border: 1.5px solid #e0e0e0;
+  border: 1.5px solid #e2e2e2;
   border-radius: 10px;
   padding: 4px 8px;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.07);
-  min-width: 104px;
-  justify-content: center;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.07);
 }
 
-/* Stato neutro: bordo tratteggiato, sfondo leggermente grigio */
-.wtp-neutral .wtp-columns,
-.wtp-columns.wtp-neutral-inner {
-  background: #f7f7f7;
+/* Stato neutro: bordo tratteggiato + sfondo grigio pallido */
+.wtp-columns.wtp-is-neutral {
+  background: #f5f5f5;
   border-style: dashed;
   border-color: #ccc;
 }
 
-/* Testo "--" per lo stato neutro (iniettato via ::after sul wrapper) */
-.wtp-neutral::after {
-  content: '--:--';
-  position: absolute;
-  font-family: var(--font-titoli, 'Georgia', serif);
-  font-size: 18px;
-  font-weight: 700;
-  color: #bbb;
-  pointer-events: none;
-}
-
-/* Sovrascrive quando neutro: nasconde il testo reale */
-.wtp-neutral .wc-item {
-  color: transparent !important;
-}
-
-.wtp-neutral .wc-indicator {
-  opacity: 0;
-}
-
-/* ─── DualWheelPicker — affiancato ─── */
+/* ─── DualWheelPicker — due picker affiancati ─── */
 .dwp-root {
   display: flex;
   align-items: stretch;
-  gap: 0;
   width: 100%;
-  background: #f8f8f8;
-  border: 1.5px solid #e0e0e0;
+  background: #fafafa;
+  border: 1.5px solid #e2e2e2;
   border-radius: 12px;
   overflow: hidden;
 }
@@ -176,16 +159,20 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 8px 0;
+  padding: 10px 4px;
 }
 
-/* Sostituisce il box bianco interno del singolo picker quando in DualPicker */
+/* Dentro DualWheelPicker: rimuove il box bianco del singolo picker */
 .dwp-slot .wtp-columns {
   background: transparent;
   border: none;
   box-shadow: none;
   padding: 4px 4px;
-  min-width: unset;
+}
+
+.dwp-slot .wtp-columns.wtp-is-neutral {
+  background: transparent;
+  border: none;
 }
 
 .dwp-slot .wtp-root {
@@ -195,5 +182,6 @@
 .dwp-divider {
   width: 1px;
   background: #e0e0e0;
-  margin: 8px 0;
+  margin: 10px 0;
+  flex-shrink: 0;
 }
