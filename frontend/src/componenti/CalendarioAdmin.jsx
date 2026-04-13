@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import {
   leggiAttivitaMese,
   salvaAttivitaCalendario,
@@ -315,7 +316,7 @@ function CalendarioAdmin() {
       </div>
 
       {/* ─── Pannello dettaglio / form ────────────────── */}
-      {giornoSelezionato && (
+      {giornoSelezionato && createPortal(
         <div className="calendario-modale-overlay">
           <div className="calendario-modale animazione-entrata">
 
@@ -458,11 +459,12 @@ function CalendarioAdmin() {
             )}
 
           </div>
-        </div>
+        </div>,
+        document.body
       )}
 
       {/* ─── Modale custom ──────────────────────────── */}
-      {modale && (
+      {modale && createPortal(
         <div className="calendario-modale-overlay">
           <div className="calendario-modale">
             <h3 className="modale-titolo">{modale.titolo}</h3>
@@ -478,7 +480,8 @@ function CalendarioAdmin() {
               )}
             </div>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
 
     </div>

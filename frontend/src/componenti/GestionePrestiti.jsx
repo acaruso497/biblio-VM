@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { leggiPrestiti, registraPrestito, restituisciLibro, svuotaArchivioPrestiti, eliminaPrestito } from '../servizi/api';
 import './GestionePrestiti.css';
 
@@ -240,7 +241,7 @@ function GestionePrestiti() {
       )}
 
       {/* Modale Inserimento */}
-      {modaleAperto && (
+      {modaleAperto && createPortal(
         <div className="calendario-modale-overlay">
           <div className="calendario-modale modale-form-largo animazione-entrata">
             <h3 className="modale-titolo">Registra Uscita Libro</h3>
@@ -277,11 +278,12 @@ function GestionePrestiti() {
             </form>
 
           </div>
-        </div>
+        </div>,
+        document.body
       )}
 
       {/* Modale Conferma Restituzione (Sostituisce Confirm Browser) */}
-      {pDaRestituire && (
+      {pDaRestituire && createPortal(
         <div className="calendario-modale-overlay">
           <div className="calendario-modale animazione-entrata" style={{ maxWidth: '400px' }}>
             <h3 className="modale-titolo">Conferma Restituzione</h3>
@@ -305,11 +307,12 @@ function GestionePrestiti() {
               </button>
             </div>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
 
       {/* Modale Conferma Svuota (Pulisci) */}
-      {mostraConfermaSvuota && (
+      {mostraConfermaSvuota && createPortal(
         <div className="calendario-modale-overlay">
           <div className="calendario-modale animazione-entrata" style={{ maxWidth: '450px' }}>
             <h3 className="modale-titolo">Pulisci Archivio Storico</h3>
@@ -330,11 +333,12 @@ function GestionePrestiti() {
               </button>
             </div>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
 
       {/* Modale Conferma Eliminazione Singola */}
-      {pDaEliminare && (
+      {pDaEliminare && createPortal(
         <div className="calendario-modale-overlay">
           <div className="calendario-modale animazione-entrata" style={{ maxWidth: '400px' }}>
             <h3 className="modale-titolo">Elimina Record</h3>
@@ -359,7 +363,8 @@ function GestionePrestiti() {
               </button>
             </div>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
 
     </div>

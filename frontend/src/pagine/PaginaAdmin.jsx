@@ -2,6 +2,7 @@
 // pagine/PaginaAdmin.jsx — Dashboard Amministratore
 // =====================================================
 import React, { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { Link } from 'react-router-dom';
 import { 
   effettuaLogin, 
@@ -275,7 +276,7 @@ function PaginaAdmin() {
         </div>
       </main>
 
-      {mostraModaleCred && (
+      {mostraModaleCred && createPortal(
         <div className="calendario-modale-overlay">
           <div className="calendario-modale credenziali-modale" style={{ maxWidth: '450px' }}>
             <h3 className="modale-titolo">Modifica Credenziali</h3>
@@ -322,7 +323,8 @@ function PaginaAdmin() {
               </div>
             </form>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </div>
   );
