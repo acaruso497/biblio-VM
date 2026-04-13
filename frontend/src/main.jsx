@@ -13,9 +13,11 @@ import { createRoot } from 'react-dom/client'
 // Forza il ritorno alla Home Page pubblica ad ogni ricaricamento del sito.
 // Questo assicura che l'area amministratore non sia raggiungibile direttamente
 // via URL o dopo un refresh, forzando l'utente a passare per la home.
+/* 
 if (window.location.pathname !== '/') {
   window.history.replaceState(null, '', '/');
 }
+*/
 
 // Importiamo lo stile globale — viene applicato a tutta l'app
 import './index.css'
