@@ -85,6 +85,12 @@ function CalendarioPubblico({ onAttivitaSettimanaCorrenteCaricate }) {
     return `${giorno}/${mese}/${anno}`;
   }
 
+  function formattaOrario(start, end) {
+    if (!start) return null;
+    if (end) return `Inizio: ${start} - Fine: ${end}`;
+    return `Inizio: ${start}`;
+  }
+
   // --- Logica Griglia ---
   const primoGiornoDelMese = new Date(annoVis, meseVis - 1, 1);
   const ultimoGiornoDelMese = new Date(annoVis, meseVis, 0);
@@ -149,12 +155,23 @@ function CalendarioPubblico({ onAttivitaSettimanaCorrenteCaricate }) {
             <button className="btn-chiudi" onClick={chiudiDettaglio}>✕</button>
           </div>
           <div style={{ padding: '8px 0' }}>
-            <h4 style={{ color: 'var(--bianco-sporco)', fontSize: '18px', marginBottom: '8px' }}>
+            <h4 style={{ color: 'var(--bianco-sporco)', fontSize: '18px', marginBottom: '4px' }}>
               {attivitaSelezionata.titolo}
             </h4>
-            <p style={{ color: '#000000', fontSize: '15px', lineHeight: '1.6', fontWeight: '500', whiteSpace: 'pre-wrap' }}>
-              {attivitaSelezionata.descrizione || 'Nessuna descrizione per questa attività.'}
-            </p>
+            
+            {/* Task 1: Rendering Orari */}
+            {attivitaSelezionata.start_time && (
+              <div style={{ color: 'var(--bianco-sporco-2)', fontSize: '14px', marginBottom: '8px', opacity: 0.9 }}>
+                {formattaOrario(attivitaSelezionata.start_time, attivitaSelezionata.end_time)}
+              </div>
+            )}
+
+            {/* Task 2: Rimozione Placeholder Descrizione */}
+            {attivitaSelezionata.descrizione && (
+              <p style={{ color: '#000000', fontSize: '15px', lineHeight: '1.6', fontWeight: '500', whiteSpace: 'pre-wrap', marginTop: '4px' }}>
+                {attivitaSelezionata.descrizione}
+              </p>
+            )}
           </div>
         </div>
       )}
